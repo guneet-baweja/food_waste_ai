@@ -1,0 +1,80 @@
+[
+  {
+    "id": "u001",
+    "name": "Admin User",
+    "email": "admin@foodwaste.ai",
+    "password": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+    "role": "admin",
+    "points": 9999,
+    "total_donations": 50,
+    "location": "New York, NY",
+    "joined": "2024-01-01",
+    "approved": true,
+    "avatar": ""
+  },
+  {
+    "id": "u002",
+    "name": "Green Kitchen Restaurant",
+    "email": "restaurant@foodwaste.ai",
+    "password": "9b8769a4a742959a2d0298c36fb70623f2dfacda8436237df08d8dfd5b37374c",
+    "role": "restaurant",
+    "points": 1200,
+    "total_donations": 35,
+    "location": "Brooklyn, NY",
+    "joined": "2024-02-15",
+    "approved": true,
+    "avatar": ""
+  },
+  {
+    "id": "u003",
+    "name": "Hope NGO",
+    "email": "ngo@foodwaste.ai",
+    "password": "9b8769a4a742959a2d0298c36fb70623f2dfacda8436237df08d8dfd5b37374c",
+    "role": "ngo",
+    "points": 800,
+    "total_donations": 0,
+    "location": "Manhattan, NY",
+    "joined": "2024-03-10",
+    "approved": true,
+    "avatar": ""
+  },
+  {
+    "id": "u004",
+    "name": "Alex Volunteer",
+    "email": "volunteer@foodwaste.ai",
+    "password": "9b8769a4a742959a2d0298c36fb70623f2dfacda8436237df08d8dfd5b37374c",
+    "role": "volunteer",
+    "points": 450,
+    "total_donations": 12,
+    "location": "Queens, NY",
+    "joined": "2024-04-01",
+    "approved": true,
+    "avatar": ""
+  },
+  {
+    "id": "u005",
+    "name": "Sarah Household",
+    "email": "donor@foodwaste.ai",
+    "password": "9b8769a4a742959a2d0298c36fb70623f2dfacda8436237df08d8dfd5b37374c",
+    "role": "donor",
+    "points": 320,
+    "total_donations": 8,
+    "location": "Bronx, NY",
+    "joined": "2024-05-20",
+    "approved": true,
+    "avatar": ""
+  },
+  {
+    "id": "14f4a317-3b0b-48ce-8405-0dde97db46f0",
+    "name": "Bennett University",
+    "email": "guneetreal@test.com",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "role": "donor",
+    "points": 150,
+    "total_donations": 1,
+    "location": "Noida",
+    "joined": "2026-03-02T09:08:33.765489",
+    "approved": true,
+    "avatar": ""
+  }
+]

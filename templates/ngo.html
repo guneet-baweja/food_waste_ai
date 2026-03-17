@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NGO Portal — FoodSave AI</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body class="dark-mode" data-page="ngo">
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <a href="/" style="text-decoration:none;color:inherit">
+        <span class="brand-icon">🌱</span>FoodSave<span class="accent">AI</span>
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><a href="/donate" class="nav-link">Donate Food</a></li>
+      <li><a href="/ngo" class="nav-link active">NGO Portal</a></li>
+      <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><span class="theme-icon">☀️</span></button>
+      <div id="navAuthArea"></div>
+    </div>
+  </nav>
+
+  <div class="page-hero page-hero-sm">
+    <div class="page-hero-content">
+      <div class="section-tag">NGO & Volunteer Portal</div>
+      <h1>Find & Accept <span class="gradient-text">Food Donations</span></h1>
+      <p>Browse available food donations near you and accept pickups to serve your community.</p>
+    </div>
+  </div>
+
+  <div class="ngo-layout">
+
+    <!-- FILTER PANEL -->
+    <aside class="ngo-filter-panel">
+      <div class="glass-card">
+        <h3>🔍 Filter Donations</h3>
+
+        <div class="filter-group">
+          <label>Urgency Level</label>
+          <div class="urgency-filters">
+            <label class="urgency-check">
+              <input type="checkbox" name="urgency" value="critical" class="urgency-cb" checked />
+              <span class="urg-badge critical">🆘 Critical</span>
+            </label>
+            <label class="urgency-check">
+              <input type="checkbox" name="urgency" value="high" class="urgency-cb" checked />
+              <span class="urg-badge high">⚠️ High</span>
+            </label>
+            <label class="urgency-check">
+              <input type="checkbox" name="urgency" value="medium" class="urgency-cb" checked />
+              <span class="urg-badge medium">📦 Medium</span>
+            </label>
+            <label class="urgency-check">
+              <input type="checkbox" name="urgency" value="low" class="urgency-cb" />
+              <span class="urg-badge low">✅ Low</span>
+            </label>
+            <label class="urgency-check">
+              <input type="checkbox" name="urgency" value="safe" class="urgency-cb" />
+              <span class="urg-badge safe">🌿 Safe</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label>Food Type</label>
+          <select id="foodTypeFilter" class="form-input form-select">
+            <option value="">All Types</option>
+            <option value="cooked">🍛 Cooked</option>
+            <option value="raw">🥦 Raw</option>
+            <option value="bakery">🍞 Bakery</option>
+            <option value="dairy">🧀 Dairy</option>
+            <option value="packaged">📦 Packaged</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Status</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="statusFilter" value="available" checked /> Available Only
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="statusFilter" value="" /> All Donations
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full" id="applyFilters">Apply Filters</button>
+        <button class="btn btn-ghost btn-full mt-sm" id="resetFilters">Reset</button>
+      </div>
+
+      <!-- STATS SUMMARY -->
+      <div class="glass-card mt-lg">
+        <h3>📈 Today's Summary</h3>
+        <div class="ngo-summary" id="ngoSummary">
+          <div class="ngo-sum-item">
+            <span class="nso-label">Available Now</span>
+            <span class="nso-val" id="sumAvailable">—</span>
+          </div>
+          <div class="ngo-sum-item">
+            <span class="nso-label">Critical Urgency</span>
+            <span class="nso-val urgent" id="sumCritical">—</span>
+          </div>
+          <div class="ngo-sum-item">
+            <span class="nso-label">In Pickup</span>
+            <span class="nso-val" id="sumAccepted">—</span>
+          </div>
+          <div class="ngo-sum-item">
+            <span class="nso-label">Completed Today</span>
+            <span class="nso-val success" id="sumCompleted">—</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- DONATIONS LIST -->
+    <main class="ngo-main">
+      <div class="ngo-toolbar">
+        <div class="ngo-count">
+          <span id="donationCount">0</span> donations found
+        </div>
+        <div class="sort-controls">
+          <label>Sort by:</label>
+          <select id="sortSelect" class="form-input form-select sort-select">
+            <option value="urgency">Urgency</option>
+            <option value="time">Time Added</option>
+            <option value="quantity">Quantity</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="donationsList" class="ngo-donations-list">
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
+          Loading donations...
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- DONATION DETAIL MODAL -->
+  <div class="modal-overlay" id="donationModal" style="display:none">
+    <div class="modal-content glass-card">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div id="modalBody">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/static/js/main.js"></script>
+  <script src="/static/js/animations.js"></script>
+</body>
+</html>

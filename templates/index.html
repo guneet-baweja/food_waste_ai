@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FoodSave AI — Smart Food Waste Management</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body class="dark-mode" data-page="home">
+
+  <!-- ── LOADING SCREEN ── -->
+  <div id="loader" class="loader">
+    <div class="loader-inner">
+      <div class="loader-globe"></div>
+      <div class="loader-text">FoodSave<span class="accent">AI</span></div>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+      <p class="loader-sub">Initializing Smart Platform...</p>
+    </div>
+  </div>
+
+  <!-- ── NAV ── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🌱</span>
+      FoodSave<span class="accent">AI</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link active">Home</a></li>
+      <li><a href="/donate" class="nav-link">Donate Food</a></li>
+      <li><a href="/ngo" class="nav-link">NGO Portal</a></li>
+      <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="theme-icon">☀️</span>
+      </button>
+      <div id="navAuthArea">
+        <a href="/login" class="btn btn-ghost">Login</a>
+        <a href="/signup" class="btn btn-primary">Get Started</a>
+      </div>
+    </div>
+    <button class="nav-hamburger" id="navHamburger">☰</button>
+  </nav>
+
+  <!-- ── MOBILE MENU ── -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/donate">Donate Food</a></li>
+      <li><a href="/ngo">NGO Portal</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/signup">Sign Up</a></li>
+    </ul>
+  </div>
+
+  <!-- ── HERO SECTION + THREE.JS CANVAS ── -->
+  <section class="hero" id="hero">
+    <canvas id="threeCanvas"></canvas>
+
+    <div class="hero-content" id="heroContent">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AI-Powered Food Waste Solution
+      </div>
+      <h1 class="hero-title">
+        Feed People,<br/>
+        <span class="gradient-text">Not Landfills.</span>
+      </h1>
+      <p class="hero-sub">
+        Connect restaurants, households, NGOs and volunteers through intelligent
+        food donation routing — powered by real-time AI freshness prediction.
+      </p>
+      <div class="hero-actions">
+        <a href="/donate" class="btn btn-primary btn-lg">
+          <span>Start Donating</span>
+          <span class="btn-arrow">→</span>
+        </a>
+        <a href="/ngo" class="btn btn-outline btn-lg">
+          I'm an NGO
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-num" data-target="12000">0</div>
+          <div class="hstat-label">Meals Donated</div>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <div class="hstat-num" data-target="4800">0</div>
+          <div class="hstat-label">kg Food Saved</div>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <div class="hstat-num" data-target="2300">0</div>
+          <div class="hstat-label">CO₂ Reduced (kg)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="section how-it-works" id="howItWorks">
+    <div class="section-tag reveal">Platform Overview</div>
+    <h2 class="section-title reveal">How FoodSave AI Works</h2>
+    <p class="section-sub reveal">Four simple steps to rescue food and fight waste.</p>
+
+    <div class="steps-grid">
+      <div class="step-card reveal" data-delay="0">
+        <div class="step-num">01</div>
+        <div class="step-icon">📸</div>
+        <h3>List Your Food</h3>
+        <p>Upload a photo, set quantity and expiry. Our AI predicts freshness score instantly.</p>
+      </div>
+      <div class="step-card reveal" data-delay="100">
+        <div class="step-num">02</div>
+        <div class="step-icon">🤖</div>
+        <h3>AI Analyzes & Routes</h3>
+        <p>Smart algorithms calculate urgency, match with nearest NGOs and volunteers.</p>
+      </div>
+      <div class="step-card reveal" data-delay="200">
+        <div class="step-num">03</div>
+        <div class="step-icon">🚗</div>
+        <h3>Smart Pickup</h3>
+        <p>Volunteers get optimized routes. Real-time tracking ensures food arrives fresh.</p>
+      </div>
+      <div class="step-card reveal" data-delay="300">
+        <div class="step-num">04</div>
+        <div class="step-icon">🏆</div>
+        <h3>Earn Rewards</h3>
+        <p>Collect points, badges and climb the leaderboard for every donation made.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LIVE MAP SECTION ── -->
+  <section class="section map-section" id="mapSection">
+    <div class="section-tag reveal">Live Network</div>
+    <h2 class="section-title reveal">Active Donation Map</h2>
+    <p class="section-sub reveal">Watch food move across your city in real time.</p>
+    <div class="map-wrapper reveal">
+      <div class="map-container" id="liveMap">
+        <svg class="map-svg" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <!-- City grid background -->
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(100,255,150,0.08)" stroke-width="1"/>
+            </pattern>
+            <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1"/>
+              <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1"/>
+            </linearGradient>
+          </defs>
+          <rect width="800" height="450" fill="url(#grid)"/>
+
+          <!-- Roads -->
+          <line x1="0" y1="225" x2="800" y2="225" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
+          <line x1="400" y1="0" x2="400" y2="450" stroke="rgba(255,255,255,0.05)" stroke-width="2"/>
+          <line x1="0" y1="112" x2="800" y2="112" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+          <line x1="0" y1="337" x2="800" y2="337" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+          <line x1="200" y1="0" x2="200" y2="450" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+          <line x1="600" y1="0" x2="600" y2="450" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+
+          <!-- Animated route paths -->
+          <path class="route-path" d="M 150 280 Q 280 200 400 160 Q 520 120 650 170" stroke="url(#routeGrad)" stroke-width="2" fill="none" stroke-dasharray="8,4"/>
+          <path class="route-path-2" d="M 680 320 Q 550 280 420 310 Q 300 340 180 300" stroke="#ff6b6b" stroke-width="2" fill="none" stroke-dasharray="8,4" opacity="0.7"/>
+          <path class="route-path-3" d="M 350 80 Q 400 150 380 250 Q 360 350 410 400" stroke="#ffd93d" stroke-width="2" fill="none" stroke-dasharray="8,4" opacity="0.7"/>
+
+          <!-- Animated dots on routes -->
+          <circle class="route-dot" r="6" fill="#00ff88">
+            <animateMotion dur="4s" repeatCount="indefinite" path="M 150 280 Q 280 200 400 160 Q 520 120 650 170"/>
+          </circle>
+          <circle class="route-dot-2" r="5" fill="#ff6b6b">
+            <animateMotion dur="5s" repeatCount="indefinite" path="M 680 320 Q 550 280 420 310 Q 300 340 180 300"/>
+          </circle>
+          <circle class="route-dot-3" r="5" fill="#ffd93d">
+            <animateMotion dur="3.5s" repeatCount="indefinite" path="M 350 80 Q 400 150 380 250 Q 360 350 410 400"/>
+          </circle>
+
+          <!-- Location pins -->
+          <g class="map-pin" transform="translate(145, 275)">
+            <circle r="12" fill="#00ff88" opacity="0.2" class="ping-circle"/>
+            <circle r="6" fill="#00ff88"/>
+            <text y="-20" text-anchor="middle" fill="#00ff88" font-size="11" font-family="DM Sans">🍕 Restaurant</text>
+          </g>
+          <g class="map-pin" transform="translate(650, 165)">
+            <circle r="12" fill="#00d4ff" opacity="0.2" class="ping-circle"/>
+            <circle r="6" fill="#00d4ff"/>
+            <text y="-20" text-anchor="middle" fill="#00d4ff" font-size="11" font-family="DM Sans">🏠 NGO Center</text>
+          </g>
+          <g class="map-pin" transform="translate(680, 320)">
+            <circle r="12" fill="#ff6b6b" opacity="0.2" class="ping-circle"/>
+            <circle r="6" fill="#ff6b6b"/>
+            <text y="-20" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="DM Sans">🍞 Household</text>
+          </g>
+          <g class="map-pin" transform="translate(180, 300)">
+            <circle r="12" fill="#ffd93d" opacity="0.2" class="ping-circle"/>
+            <circle r="6" fill="#ffd93d"/>
+            <text y="-20" text-anchor="middle" fill="#ffd93d" font-size="11" font-family="DM Sans">🏥 Shelter</text>
+          </g>
+          <g class="map-pin" transform="translate(355, 78)">
+            <circle r="10" fill="#b48eff" opacity="0.2" class="ping-circle"/>
+            <circle r="5" fill="#b48eff"/>
+            <text y="-20" text-anchor="middle" fill="#b48eff" font-size="11" font-family="DM Sans">🚗 Volunteer</text>
+          </g>
+        </svg>
+
+        <!-- Map legend -->
+        <div class="map-legend">
+          <div class="legend-item"><span class="leg-dot" style="background:#00ff88"></span>Restaurant</div>
+          <div class="legend-item"><span class="leg-dot" style="background:#00d4ff"></span>NGO</div>
+          <div class="legend-item"><span class="leg-dot" style="background:#ff6b6b"></span>Household</div>
+          <div class="legend-item"><span class="leg-dot" style="background:#ffd93d"></span>Shelter</div>
+          <div class="legend-item"><span class="leg-dot" style="background:#b48eff"></span>Volunteer</div>
+        </div>
+
+        <!-- Live status ticker -->
+        <div class="map-ticker" id="mapTicker">
+          <span class="ticker-dot"></span>
+          <span id="tickerText">3 active pickups in progress...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── AI FEATURES ── -->
+  <section class="section ai-section" id="aiSection">
+    <div class="section-tag reveal">AI Intelligence</div>
+    <h2 class="section-title reveal">Powered by Smart Algorithms</h2>
+
+    <div class="ai-grid">
+      <div class="ai-feature reveal" data-delay="0">
+        <div class="ai-icon-wrap">
+          <div class="ai-icon">🔬</div>
+        </div>
+        <h3>Freshness Prediction</h3>
+        <p>Upload a food photo and our model predicts freshness, shelf life, and donation urgency in seconds.</p>
+        <div class="ai-meter">
+          <div class="ai-meter-fill" style="--pct: 85%"></div>
+          <span>Freshness Score: 85/100</span>
+        </div>
+      </div>
+      <div class="ai-feature reveal" data-delay="150">
+        <div class="ai-icon-wrap">
+          <div class="ai-icon">📍</div>
+        </div>
+        <h3>Smart Route Matching</h3>
+        <p>AI matches donations to the nearest available volunteer considering traffic, capacity and urgency.</p>
+        <div class="ai-meter">
+          <div class="ai-meter-fill" style="--pct: 92%"></div>
+          <span>Match Accuracy: 92%</span>
+        </div>
+      </div>
+      <div class="ai-feature reveal" data-delay="300">
+        <div class="ai-icon-wrap">
+          <div class="ai-icon">📊</div>
+        </div>
+        <h3>Waste Analytics</h3>
+        <p>Restaurants get weekly AI reports on food waste patterns with actionable recommendations.</p>
+        <div class="ai-meter">
+          <div class="ai-meter-fill" style="--pct: 78%"></div>
+          <span>Waste Reduction: 78%</span>
+        </div>
+      </div>
+      <div class="ai-feature reveal" data-delay="450">
+        <div class="ai-icon-wrap">
+          <div class="ai-icon">🌡️</div>
+        </div>
+        <h3>Urgency Detection</h3>
+        <p>Real-time alerts when donated food is at risk. Auto-escalates to priority pickup volunteers.</p>
+        <div class="ai-meter">
+          <div class="ai-meter-fill" style="--pct: 98%" style="background:linear-gradient(90deg,#ff6b6b,#ffd93d)"></div>
+          <span>Alert Accuracy: 98%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── IMPACT COUNTERS ── -->
+  <section class="section impact-section" id="impactSection">
+    <div class="impact-bg-glow"></div>
+    <div class="section-tag reveal">Our Impact</div>
+    <h2 class="section-title reveal">Numbers That Matter</h2>
+
+    <div class="impact-grid" id="impactGrid">
+      <div class="impact-card reveal" data-delay="0">
+        <div class="impact-icon">🍽️</div>
+        <div class="impact-number counter" data-target="0" id="impactMeals">—</div>
+        <div class="impact-label">Meals Donated</div>
+      </div>
+      <div class="impact-card reveal" data-delay="100">
+        <div class="impact-icon">🌿</div>
+        <div class="impact-number counter" data-target="0" id="impactCO2">—</div>
+        <div class="impact-label">kg CO₂ Saved</div>
+      </div>
+      <div class="impact-card reveal" data-delay="200">
+        <div class="impact-icon">👥</div>
+        <div class="impact-number counter" data-target="0" id="impactUsers">—</div>
+        <div class="impact-label">Active Users</div>
+      </div>
+      <div class="impact-card reveal" data-delay="300">
+        <div class="impact-icon">🏙️</div>
+        <div class="impact-number counter" data-target="0" id="impactCities">—</div>
+        <div class="impact-label">Cities Reached</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="section testimonials-section">
+    <div class="section-tag reveal">Community</div>
+    <h2 class="section-title reveal">Voices of Change</h2>
+    <div class="testimonials-carousel" id="testimonialsCarousel">
+      <div class="testimonial-card active">
+        <div class="tcard-quote">"We used to throw away 20kg of food daily. With FoodSave AI, every meal finds a home."</div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">GK</div>
+          <div>
+            <div class="tcard-name">Green Kitchen NYC</div>
+            <div class="tcard-role">Restaurant Partner</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tcard-quote">"As an NGO, we can now plan pickups efficiently. The AI routing saves us 2 hours daily."</div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">HN</div>
+          <div>
+            <div class="tcard-name">Hope NGO</div>
+            <div class="tcard-role">NGO Partner</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="tcard-quote">"I volunteer 3 times a week now. The gamification keeps me motivated to do more."</div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">AJ</div>
+          <div>
+            <div class="tcard-name">Alex Johnson</div>
+            <div class="tcard-role">Top Volunteer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-dots" id="carouselDots">
+      <div class="cdot active" data-idx="0"></div>
+      <div class="cdot" data-idx="1"></div>
+      <div class="cdot" data-idx="2"></div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="section cta-section">
+    <div class="cta-glow"></div>
+    <div class="cta-content reveal">
+      <h2>Ready to Make a Difference?</h2>
+      <p>Join thousands of restaurants, households, and volunteers fighting food waste together.</p>
+      <div class="cta-actions">
+        <a href="/signup" class="btn btn-primary btn-lg">
+          Join FoodSave AI — It's Free
+        </a>
+        <a href="/donate" class="btn btn-ghost btn-lg">
+          List Your Food Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo">🌱 FoodSave<span class="accent">AI</span></div>
+        <p>Fighting food waste, one donation at a time. AI-powered platform connecting communities.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <a href="/donate">Donate Food</a>
+          <a href="/ngo">NGO Portal</a>
+          <a href="/dashboard">Dashboard</a>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <a href="/login">Login</a>
+          <a href="/signup">Sign Up</a>
+        </div>
+        <div class="footer-col">
+          <h4>Impact</h4>
+          <a href="#impactSection">Stats</a>
+          <a href="#howItWorks">How it works</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 FoodSave AI. All rights reserved.</span>
+      <span>Made with ❤️ for the planet 🌍</span>
+    </div>
+  </footer>
+
+  <!-- ── NOTIFICATION TOAST ── -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- ── SCRIPTS ── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/static/js/threeScene.js"></script>
+  <script src="/static/js/animations.js"></script>
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

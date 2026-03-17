@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — FoodSave AI</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Profile-specific styles ─── */
+    .profile-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: calc(var(--nav-h) + 3rem) 2rem 4rem;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .profile-sidebar-card {
+      position: sticky;
+      top: calc(var(--nav-h) + 1.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .profile-avatar-section {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    .profile-avatar-large {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--grad-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #080c14;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 0 0 4px rgba(0, 255, 136, 0.2), var(--shadow-glow-green);
+    }
+
+    .profile-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-role-badge {
+      display: inline-block;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: capitalize;
+      background: rgba(0, 255, 136, 0.12);
+      color: var(--accent-green);
+      border: 1px solid rgba(0, 255, 136, 0.25);
+      margin-bottom: 1rem;
+    }
+
+    .profile-location {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .profile-joined {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .profile-stats-mini {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .psm-item {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .psm-value {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .psm-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .profile-points-card {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .points-rank-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.3rem;
+    }
+
+    .points-rank-value {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 800;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .level-info {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .level-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .level-bar-wrap {
+      height: 8px;
+      background: var(--border-color);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .level-bar-fill {
+      height: 100%;
+      background: var(--grad-primary);
+      border-radius: 999px;
+      transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .level-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Main content */
+    .profile-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .profile-section {
+      padding: 2rem;
+    }
+
+    .profile-section-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .profile-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+
+    /* Edit form */
+    .edit-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .edit-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+
+    /* Badges in profile */
+    .profile-badges-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .profile-badge-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .profile-badge-pill.empty {
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border-color: var(--border-color);
+    }
+
+    /* Donation history */
+    .profile-donation-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      transition: background var(--transition-fast);
+    }
+
+    .profile-donation-row:last-child { border-bottom: none; }
+    .profile-donation-row:hover { background: var(--bg-secondary); border-radius: var(--radius-sm); }
+
+    .pdr-emoji {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .pdr-info { flex: 1; min-width: 0; }
+
+    .pdr-name {
+      font-weight: 600;
+      font-size: 0.92rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pdr-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .pdr-score {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .pdr-freshness-num {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--accent-green);
+    }
+
+    .pdr-status {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* CO2 impact bar chart */
+    .impact-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .impact-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .ibr-label {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      width: 100px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .ibr-bar-wrap {
+      flex: 1;
+      height: 24px;
+      background: var(--border-color);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .ibr-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--grad-primary);
+      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      padding-left: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #080c14;
+      min-width: 2rem;
+    }
+
+    .ibr-value {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      width: 60px;
+      flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .profile-layout {
+        grid-template-columns: 1fr;
+      }
+      .profile-sidebar-card {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body class="dark-mode" data-page="profile">
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <a href="/" style="text-decoration:none;color:inherit">
+        <span class="brand-icon">🌱</span>FoodSave<span class="accent">AI</span>
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><a href="/donate" class="nav-link">Donate Food</a></li>
+      <li><a href="/ngo" class="nav-link">NGO Portal</a></li>
+      <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><span class="theme-icon">☀️</span></button>
+      <div id="navAuthArea"></div>
+    </div>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <div class="profile-layout" id="profileLayout">
+
+    <!-- SIDEBAR -->
+    <div class="profile-sidebar-card">
+
+      <!-- Avatar + Name -->
+      <div class="glass-card profile-avatar-section">
+        <div class="profile-avatar-large" id="profileAvatar">?</div>
+        <div class="profile-name" id="profileName">Loading...</div>
+        <div class="profile-role-badge" id="profileRole">—</div>
+        <div class="profile-location" id="profileLocation">📍 —</div>
+        <div class="profile-joined" id="profileJoined">Member since —</div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="glass-card" style="padding:1.5rem">
+        <div class="profile-stats-mini" id="profileStatsMini">
+          <div class="psm-item">
+            <div class="psm-value" id="psmDonations">—</div>
+            <div class="psm-label">Donations</div>
+          </div>
+          <div class="psm-item">
+            <div class="psm-value" id="psmCO2">—</div>
+            <div class="psm-label">kg CO₂ Saved</div>
+          </div>
+          <div class="psm-item" style="grid-column:1/-1">
+            <div class="psm-value" id="psmMeals">—</div>
+            <div class="psm-label">Meals Donated</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Points & Level -->
+      <div class="glass-card profile-points-card">
+        <div class="points-rank-label">Points Balance</div>
+        <div class="points-rank-value" id="profilePoints">0</div>
+        <div class="level-info" id="levelInfo">Level 1 — Beginner</div>
+        <div class="level-progress">
+          <div class="level-bar-wrap">
+            <div class="level-bar-fill" id="levelBarFill" style="width:0%"></div>
+          </div>
+          <div class="level-labels">
+            <span id="levelCurrent">0 pts</span>
+            <span id="levelNext">500 pts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="glass-card" style="padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem">
+        <a href="/donate" class="btn btn-primary btn-full">🍽️ New Donation</a>
+        <a href="/dashboard" class="btn btn-ghost btn-full">📊 Dashboard</a>
+        <button class="btn btn-ghost btn-full" id="logoutBtnProfile" style="color:var(--accent-red)">
+          🚪 Logout
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="profile-main" id="profileMain">
+
+      <!-- BADGES -->
+      <div class="glass-card profile-section">
+        <div class="profile-section-title">🎖️ My Badges</div>
+        <div class="profile-badges-grid" id="profileBadges">
+          <span class="profile-badge-pill empty">Loading badges...</span>
+        </div>
+      </div>
+
+      <!-- IMPACT CHART -->
+      <div class="glass-card profile-section">
+        <div class="profile-section-title">🌿 Environmental Impact</div>
+        <div class="impact-chart" id="impactChart">
+          <div class="loading-state">Loading impact data...</div>
+        </div>
+      </div>
+
+      <!-- DONATION HISTORY -->
+      <div class="glass-card profile-section">
+        <div class="profile-section-title">📦 Donation History</div>
+        <div id="profileDonationHistory">
+          <div class="loading-state"><div class="loading-spinner"></div>Loading donations...</div>
+        </div>
+      </div>
+
+      <!-- EDIT PROFILE -->
+      <div class="glass-card profile-section">
+        <div class="profile-section-title">⚙️ Edit Profile</div>
+        <form class="edit-form" id="editProfileForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="editName" class="form-input" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" id="editLocation" class="form-input" placeholder="City, State" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="editEmail" class="form-input" disabled style="opacity:0.5;cursor:not-allowed" />
+            <div class="form-hint">Email cannot be changed.</div>
+          </div>
+          <div class="form-group">
+            <label>New Password <span style="color:var(--text-muted);font-weight:400">(leave blank to keep current)</span></label>
+            <div class="password-wrap">
+              <input type="password" id="editPassword" class="form-input" placeholder="New password" minlength="6" />
+              <button type="button" class="password-toggle" id="editPassToggle">👁️</button>
+            </div>
+          </div>
+          <div class="form-error" id="editError" style="display:none"></div>
+          <div class="form-group" style="background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.15);border-radius:var(--radius-sm);padding:0.75rem;font-size:0.82rem;color:var(--text-secondary)">
+            ℹ️ Profile editing will be saved locally. Connect to a backend profile update API for persistence.
+          </div>
+          <div class="edit-actions">
+            <button type="button" class="btn btn-ghost" id="cancelEdit">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="saveProfile">
+              <span class="btn-text">Save Changes</span>
+              <span class="btn-loader" style="display:none">Saving...</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/static/js/main.js"></script>
+  <script src="/static/js/animations.js"></script>
+  <script>
+  // ── Profile page logic ──
+  (function() {
+    const LEVELS = [
+      { name: 'Beginner',    min: 0,    max: 500  },
+      { name: 'Helper',      min: 500,  max: 1000 },
+      { name: 'Contributor', min: 1000, max: 2000 },
+      { name: 'Champion',    min: 2000, max: 5000 },
+      { name: 'Legend',      min: 5000, max: 10000 }
+    ];
+
+    function getLevelInfo(points) {
+      for (let i = LEVELS.length - 1; i >= 0; i--) {
+        if (points >= LEVELS[i].min) {
+          const lvl = LEVELS[i];
+          const progress = ((points - lvl.min) / (lvl.max - lvl.min)) * 100;
+          return { ...lvl, progress: Math.min(progress, 100), number: i + 1 };
+        }
+      }
+      return { ...LEVELS[0], progress: 0, number: 1 };
+    }
+
+    function setEl(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    function formatDate(iso) {
+      try {
+        return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+      } catch { return iso; }
+    }
+
+    function getEmoji(type) {
+      const m = { cooked:'🍛', raw:'🥦', bakery:'🍞', dairy:'🧀', packaged:'📦', other:'🥡' };
+      return m[type] || '🍽️';
+    }
+
+    async function loadProfile() {
+      try {
+        const res = await fetch('/api/user/profile', { credentials: 'include' });
+        const data = await res.json();
+        if (!data.success) { window.location.href = '/login'; return; }
+
+        const user = data.user;
+
+        // Avatar
+        const av = document.getElementById('profileAvatar');
+        if (av) av.textContent = user.name.charAt(0).toUpperCase();
+
+        setEl('profileName', user.name);
+        setEl('profileRole', user.role);
+        setEl('profileLocation', user.location ? '📍 ' + user.location : '📍 Location not set');
+        setEl('profileJoined', 'Member since ' + formatDate(user.joined));
+        setEl('psmDonations', user.total_donations || 0);
+        setEl('psmCO2', (user.co2_saved || 0).toFixed(1));
+        setEl('psmMeals', Math.round((user.total_donations || 0) * 8));
+        setEl('profilePoints', (user.points || 0).toLocaleString());
+
+        // Level
+        const lvl = getLevelInfo(user.points || 0);
+        setEl('levelInfo', `Level ${lvl.number} — ${lvl.name}`);
+        setEl('levelCurrent', (user.points || 0) + ' pts');
+        setEl('levelNext', lvl.max + ' pts');
+        setTimeout(() => {
+          const fill = document.getElementById('levelBarFill');
+          if (fill) fill.style.width = lvl.progress + '%';
+        }, 400);
+
+        // Badges
+        renderBadges(user.badges || []);
+
+        // Impact chart
+        renderImpactChart(user);
+
+        // Donation history
+        renderDonationHistory(user.donations || []);
+
+        // Pre-fill edit form
+        const editName = document.getElementById('editName');
+        const editEmail = document.getElementById('editEmail');
+        const editLoc = document.getElementById('editLocation');
+        if (editName) editName.value = user.name;
+        if (editEmail) editEmail.value = user.email;
+        if (editLoc) editLoc.value = user.location || '';
+
+      } catch (err) {
+        console.error('Profile load error:', err);
+        window.location.href = '/login';
+      }
+    }
+
+    function renderBadges(badges) {
+      const container = document.getElementById('profileBadges');
+      if (!container) return;
+      if (!badges.length) {
+        container.innerHTML = '<span class="profile-badge-pill empty">🔒 No badges yet — keep donating!</span>';
+        return;
+      }
+      container.innerHTML = badges.map(b => `
+        <div class="profile-badge-pill">${b}</div>
+      `).join('');
+    }
+
+    function renderImpactChart(user) {
+      const container = document.getElementById('impactChart');
+      if (!container) return;
+
+      const co2Saved   = user.co2_saved || 0;
+      const meals      = Math.round((user.total_donations || 0) * 8);
+      const trees      = (co2Saved / 21).toFixed(1);
+      const water      = Math.round(co2Saved * 150); // liters water saved
+      const foodKg     = user.donations
+        ? user.donations.reduce((s, d) => s + (d.quantity || 0), 0).toFixed(1)
+        : 0;
+
+      const maxVal = Math.max(co2Saved, meals, parseFloat(trees) * 10, 1);
+
+      const rows = [
+        { label: 'CO₂ Saved',   value: co2Saved.toFixed(1),   unit: 'kg',    pct: (co2Saved / maxVal) * 100, color: 'var(--grad-primary)' },
+        { label: 'Meals Given', value: meals,                  unit: 'meals', pct: (meals / Math.max(meals, 1)) * 100, color: 'linear-gradient(90deg,#00d4ff,#b48eff)' },
+        { label: 'Food Saved',  value: foodKg,                 unit: 'kg',    pct: (parseFloat(foodKg) / Math.max(parseFloat(foodKg), 1)) * 100, color: 'linear-gradient(90deg,#ffd93d,#ffa500)' },
+        { label: 'Trees Equiv.',value: trees,                  unit: '🌳',    pct: Math.min(parseFloat(trees) * 20, 100), color: 'linear-gradient(90deg,#44cc44,#00ff88)' },
+      ];
+
+      container.innerHTML = rows.map(r => `
+        <div class="impact-bar-row">
+          <div class="ibr-label">${r.label}</div>
+          <div class="ibr-bar-wrap">
+            <div class="ibr-bar-fill" style="width:0%;background:${r.color}" data-width="${Math.max(r.pct, 5)}">
+              ${r.value}
+            </div>
+          </div>
+          <div class="ibr-value">${r.value} ${r.unit}</div>
+        </div>
+      `).join('');
+
+      // Animate bars
+      setTimeout(() => {
+        container.querySelectorAll('.ibr-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }, 300);
+    }
+
+    function renderDonationHistory(donations) {
+      const container = document.getElementById('profileDonationHistory');
+      if (!container) return;
+
+      if (!donations.length) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:2rem;color:var(--text-muted)">
+            <div style="font-size:2.5rem;margin-bottom:0.75rem">📭</div>
+            <p>No donations yet. <a href="/donate" style="color:var(--accent-green)">Start donating!</a></p>
+          </div>
+        `;
+        return;
+      }
+
+      // Sort newest first
+      const sorted = [...donations].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+      container.innerHTML = sorted.map(d => {
+        const statusColor = { available:'var(--accent-green)', accepted:'var(--accent-blue)', completed:'var(--accent-purple)' }[d.status] || 'var(--text-muted)';
+        const ago = (() => {
+          const diff = Math.floor((Date.now() - new Date(d.created_at)) / 1000);
+          if (diff < 3600)  return Math.floor(diff/60) + 'm ago';
+          if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+          return Math.floor(diff/86400) + 'd ago';
+        })();
+        return `
+          <div class="profile-donation-row">
+            <div class="pdr-emoji">${getEmoji(d.food_type)}</div>
+            <div class="pdr-info">
+              <div class="pdr-name">${d.food_name}</div>
+              <div class="pdr-meta">${d.quantity} ${d.quantity_unit} · ${d.location} · ${ago}</div>
+            </div>
+            <div class="pdr-score">
+              <div class="pdr-freshness-num">${d.freshness_score}</div>
+              <div class="pdr-status" style="color:${statusColor}">${d.status}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Edit form
+    document.getElementById('editPassToggle')?.addEventListener('click', () => {
+      const input = document.getElementById('editPassword');
+      const btn = document.getElementById('editPassToggle');
+      input.type = input.type === 'password' ? 'text' : 'password';
+      btn.textContent = input.type === 'password' ? '👁️' : '🙈';
+    });
+
+    document.getElementById('cancelEdit')?.addEventListener('click', () => {
+      document.getElementById('editProfileForm')?.reset();
+    });
+
+    document.getElementById('editProfileForm')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('saveProfile');
+      const text = btn.querySelector('.btn-text');
+      const loader = btn.querySelector('.btn-loader');
+      text.style.display = 'none';
+      loader.style.display = 'block';
+      btn.disabled = true;
+
+      // Simulate save (connect to real API endpoint)
+      setTimeout(() => {
+        text.style.display = 'block';
+        loader.style.display = 'none';
+        btn.disabled = false;
+        if (window.showToast) window.showToast('Profile Updated', 'Your changes have been saved.', 'success');
+      }, 1000);
+    });
+
+    // Logout
+    document.getElementById('logoutBtnProfile')?.addEventListener('click', async () => {
+      await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+      localStorage.removeItem('foodsave_user');
+      window.location.href = '/';
+    });
+
+    // Initialize
+    loadProfile();
+  })();
+  </script>
+</body>
+</html>

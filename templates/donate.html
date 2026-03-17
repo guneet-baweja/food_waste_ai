@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Donate Food — FoodSave AI</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body class="dark-mode" data-page="donate">
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <a href="/" style="text-decoration:none;color:inherit">
+        <span class="brand-icon">🌱</span>FoodSave<span class="accent">AI</span>
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><a href="/donate" class="nav-link active">Donate Food</a></li>
+      <li><a href="/ngo" class="nav-link">NGO Portal</a></li>
+      <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><span class="theme-icon">☀️</span></button>
+      <div id="navAuthArea"></div>
+    </div>
+  </nav>
+
+  <div class="page-hero page-hero-sm">
+    <div class="page-hero-content">
+      <div class="section-tag">Food Donation</div>
+      <h1>List Your <span class="gradient-text">Surplus Food</span></h1>
+      <p>Our AI will analyze freshness and match your donation with the nearest NGO or volunteer.</p>
+    </div>
+  </div>
+
+  <div class="donate-layout">
+
+    <!-- DONATION FORM -->
+    <div class="donate-form-section">
+      <div class="glass-card">
+        <h2 class="form-title">Food Donation Details</h2>
+
+        <div id="loginPrompt" class="login-prompt" style="display:none">
+          <div class="login-prompt-icon">🔐</div>
+          <h3>Login Required</h3>
+          <p>Please login or sign up to donate food.</p>
+          <div style="display:flex;gap:1rem;justify-content:center">
+            <a href="/login" class="btn btn-primary">Login</a>
+            <a href="/signup" class="btn btn-outline">Sign Up</a>
+          </div>
+        </div>
+
+        <form id="donateForm" class="donate-form">
+          <!-- Food Name -->
+          <div class="form-group">
+            <label for="foodName">Food Name *</label>
+            <input type="text" id="foodName" name="food_name" class="form-input"
+              placeholder="e.g. Vegetable Curry, Bread Loaves..." required />
+          </div>
+
+          <!-- Food Type -->
+          <div class="form-group">
+            <label>Food Type *</label>
+            <div class="type-selector" id="typeSelector">
+              <button type="button" class="type-btn active" data-type="cooked">🍛 Cooked</button>
+              <button type="button" class="type-btn" data-type="raw">🥦 Raw</button>
+              <button type="button" class="type-btn" data-type="bakery">🍞 Bakery</button>
+              <button type="button" class="type-btn" data-type="dairy">🧀 Dairy</button>
+              <button type="button" class="type-btn" data-type="packaged">📦 Packaged</button>
+              <button type="button" class="type-btn" data-type="other">🥡 Other</button>
+            </div>
+            <input type="hidden" id="foodTypeHidden" name="food_type" value="cooked" />
+          </div>
+
+          <!-- Quantity -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="quantity">Quantity *</label>
+              <input type="number" id="quantity" name="quantity" class="form-input"
+                placeholder="Amount" min="0.1" step="0.1" value="1" required />
+            </div>
+            <div class="form-group">
+              <label for="quantityUnit">Unit</label>
+              <select id="quantityUnit" name="quantity_unit" class="form-input form-select">
+                <option value="kg">Kilograms (kg)</option>
+                <option value="lbs">Pounds (lbs)</option>
+                <option value="pieces">Pieces</option>
+                <option value="liters">Liters</option>
+                <option value="servings">Servings</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Expiry Time -->
+          <div class="form-group">
+            <label for="expiryTime">Expiry / Best Before *</label>
+            <input type="datetime-local" id="expiryTime" name="expiry_time" class="form-input" required />
+            <div class="form-hint">When will this food expire or become unsafe to eat?</div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            <label for="location">Pickup Location *</label>
+            <div class="location-input-wrap">
+              <input type="text" id="location" name="location" class="form-input"
+                placeholder="Enter full address for pickup" required />
+              <button type="button" class="location-detect-btn" id="detectLocation" title="Detect my location">📍</button>
+            </div>
+            <input type="hidden" id="latHidden" name="lat" value="40.7128" />
+            <input type="hidden" id="lngHidden" name="lng" value="-74.0060" />
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-input form-textarea"
+              placeholder="Any additional details about the food (e.g. allergies, preparation method, quantity details)..."
+              rows="3"></textarea>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="form-group">
+            <label>Food Photo (AI will analyze freshness)</label>
+            <div class="upload-zone" id="uploadZone">
+              <div class="upload-icon">📸</div>
+              <div class="upload-text">
+                <strong>Click to upload</strong> or drag & drop<br/>
+                <span>PNG, JPG, JPEG up to 16MB</span>
+              </div>
+              <input type="file" id="foodImage" name="image" accept="image/*" class="upload-input" />
+            </div>
+            <div id="imagePreview" class="image-preview-wrap" style="display:none">
+              <img id="previewImg" src="" alt="Preview" class="preview-img" />
+              <button type="button" class="remove-img" id="removeImg">✕ Remove</button>
+            </div>
+          </div>
+
+          <!-- AI Prediction Result (shown after form submit starts) -->
+          <div class="ai-prediction-card" id="aiPrediction" style="display:none">
+            <div class="ai-pred-header">
+              <span class="ai-pred-icon">🤖</span>
+              <span>AI Freshness Prediction</span>
+              <span class="ai-pred-live">LIVE</span>
+            </div>
+            <div class="ai-pred-body">
+              <div class="freshness-meter">
+                <div class="freshness-label">Freshness Score</div>
+                <div class="freshness-bar">
+                  <div class="freshness-fill" id="freshnessFill"></div>
+                </div>
+                <div class="freshness-num" id="freshnessScore">—</div>
+              </div>
+              <div class="urgency-badge" id="urgencyBadge">—</div>
+              <div class="hours-left" id="hoursLeft">— hours remaining</div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-full" id="submitDonation">
+            <span class="btn-text">🍽️ List Donation & Help Someone</span>
+            <span class="btn-loader" style="display:none">Analyzing with AI...</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: ACTIVE DONATIONS -->
+    <div class="donate-sidebar">
+      <div class="glass-card">
+        <h3>🔥 Urgent Donations Needed</h3>
+        <p class="card-sub">These foods need immediate pickup</p>
+        <div id="urgentDonations" class="urgent-list">
+          <div class="loading-state">Loading...</div>
+        </div>
+      </div>
+
+      <div class="glass-card mt-lg">
+        <h3>📊 Your Impact Today</h3>
+        <div class="impact-mini" id="impactMini">
+          <div class="impact-mini-row">
+            <span>Donations this week:</span>
+            <strong id="impactWeekDonations">—</strong>
+          </div>
+          <div class="impact-mini-row">
+            <span>CO₂ saved:</span>
+            <strong id="impactWeekCO2">—</strong>
+          </div>
+          <div class="impact-mini-row">
+            <span>Points earned:</span>
+            <strong id="impactWeekPoints">—</strong>
+          </div>
+        </div>
+        <a href="/dashboard" class="btn btn-ghost btn-full mt-sm">View Full Dashboard →</a>
+      </div>
+
+      <div class="glass-card mt-lg">
+        <h3>💡 Donation Tips</h3>
+        <ul class="tips-list">
+          <li>📸 Upload clear photos for better AI matching</li>
+          <li>⏰ Set accurate expiry times for urgency detection</li>
+          <li>📍 Use precise addresses for faster pickup</li>
+          <li>📝 Mention allergens in description</li>
+          <li>🌡️ Indicate if food needs refrigeration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/static/js/main.js"></script>
+  <script src="/static/js/animations.js"></script>
+</body>
+</html>

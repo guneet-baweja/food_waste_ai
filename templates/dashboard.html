@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — FoodSave AI</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body class="dark-mode" data-page="dashboard">
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <a href="/" style="text-decoration:none;color:inherit">
+        <span class="brand-icon">🌱</span>
+        FoodSave<span class="accent">AI</span>
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><a href="/donate" class="nav-link">Donate Food</a></li>
+      <li><a href="/ngo" class="nav-link">NGO Portal</a></li>
+      <li><a href="/dashboard" class="nav-link active">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><span class="theme-icon">☀️</span></button>
+      <div id="navAuthArea"></div>
+      <button class="notif-btn" id="notifBtn">
+        🔔 <span class="notif-badge" id="notifBadge">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- NOTIFICATIONS PANEL -->
+  <div class="notif-panel" id="notifPanel">
+    <div class="notif-header">
+      <h3>Notifications</h3>
+      <button id="markAllRead">Mark all read</button>
+    </div>
+    <div id="notifList" class="notif-list">
+      <div class="notif-empty">Loading notifications...</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD LAYOUT -->
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="sidebar-avatar" id="sidebarAvatar">?</div>
+        <div class="sidebar-info">
+          <div class="sidebar-name" id="sidebarName">Loading...</div>
+          <div class="sidebar-role" id="sidebarRole">—</div>
+        </div>
+      </div>
+
+      <div class="sidebar-points">
+        <div class="points-label">Total Points</div>
+        <div class="points-value" id="sidebarPoints">0</div>
+        <div class="points-bar">
+          <div class="points-fill" id="pointsFill"></div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#overview" class="sidebar-link active" data-tab="overview">
+          <span>📊</span> Overview
+        </a>
+        <a href="#my-donations" class="sidebar-link" data-tab="my-donations">
+          <span>🍽️</span> My Donations
+        </a>
+        <a href="#leaderboard" class="sidebar-link" data-tab="leaderboard">
+          <span>🏆</span> Leaderboard
+        </a>
+        <a href="#badges" class="sidebar-link" data-tab="badges">
+          <span>🎖️</span> My Badges
+        </a>
+        <a href="#admin-panel" class="sidebar-link" data-tab="admin-panel" id="adminSidebarLink" style="display:none">
+          <span>⚙️</span> Admin Panel
+        </a>
+      </nav>
+
+      <button class="btn btn-ghost sidebar-logout" id="logoutBtn">Logout</button>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="dashboard-main">
+
+      <!-- ── TAB: OVERVIEW ── -->
+      <div class="dash-tab active" id="tab-overview">
+        <div class="dash-section-header">
+          <h2>Welcome back, <span id="dashWelcomeName">User</span>! 👋</h2>
+          <p id="dashWelcomeSub">Here's your impact at a glance.</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="dash-stats-grid">
+          <div class="dash-stat-card">
+            <div class="dsc-icon">🍽️</div>
+            <div class="dsc-value" id="statMeals">—</div>
+            <div class="dsc-label">Meals Donated</div>
+            <div class="dsc-trend up">↑ 12% this month</div>
+          </div>
+          <div class="dash-stat-card">
+            <div class="dsc-icon">🌿</div>
+            <div class="dsc-value" id="statCO2">—</div>
+            <div class="dsc-label">kg CO₂ Saved</div>
+            <div class="dsc-trend up">↑ 8% this month</div>
+          </div>
+          <div class="dash-stat-card">
+            <div class="dsc-icon">⭐</div>
+            <div class="dsc-value" id="statPoints">—</div>
+            <div class="dsc-label">Total Points</div>
+            <div class="dsc-trend up">↑ 50 this week</div>
+          </div>
+          <div class="dash-stat-card">
+            <div class="dsc-icon">🏅</div>
+            <div class="dsc-value" id="statRank">—</div>
+            <div class="dsc-label">Platform Rank</div>
+            <div class="dsc-trend neutral">Top 15%</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <h3>Quick Actions</h3>
+          <div class="qa-grid">
+            <a href="/donate" class="qa-card">
+              <div class="qa-icon">📦</div>
+              <div class="qa-label">Donate Food</div>
+            </a>
+            <a href="/ngo" class="qa-card">
+              <div class="qa-icon">🔍</div>
+              <div class="qa-label">Find Donations</div>
+            </a>
+            <button class="qa-card" onclick="window.dashboardApp.loadTab('leaderboard')">
+              <div class="qa-icon">🏆</div>
+              <div class="qa-label">Leaderboard</div>
+            </button>
+            <button class="qa-card" onclick="window.dashboardApp.loadTab('badges')">
+              <div class="qa-icon">🎖️</div>
+              <div class="qa-label">My Badges</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+          <h3>Recent Activity</h3>
+          <div id="recentActivity" class="activity-list">
+            <div class="activity-loading">Loading activity...</div>
+          </div>
+        </div>
+
+        <!-- Platform Stats -->
+        <div class="platform-stats-section">
+          <h3>Platform Impact This Month</h3>
+          <div class="plat-stats-grid" id="platStatsGrid">
+            <div class="plat-stat">
+              <span class="plat-num" id="platMeals">—</span>
+              <span class="plat-lab">Total Meals</span>
+            </div>
+            <div class="plat-stat">
+              <span class="plat-num" id="platCO2">—</span>
+              <span class="plat-lab">CO₂ Saved (kg)</span>
+            </div>
+            <div class="plat-stat">
+              <span class="plat-num" id="platUsers">—</span>
+              <span class="plat-lab">Active Users</span>
+            </div>
+            <div class="plat-stat">
+              <span class="plat-num" id="platDonations">—</span>
+              <span class="plat-lab">Donations</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: MY DONATIONS ── -->
+      <div class="dash-tab" id="tab-my-donations">
+        <div class="dash-section-header">
+          <h2>My Donations</h2>
+          <a href="/donate" class="btn btn-primary">+ New Donation</a>
+        </div>
+        <div class="filter-bar">
+          <button class="filter-btn active" data-status="all">All</button>
+          <button class="filter-btn" data-status="available">Available</button>
+          <button class="filter-btn" data-status="accepted">Accepted</button>
+          <button class="filter-btn" data-status="completed">Completed</button>
+        </div>
+        <div id="myDonationsList" class="donations-list">
+          <div class="loading-state">Loading your donations...</div>
+        </div>
+      </div>
+
+      <!-- ── TAB: LEADERBOARD ── -->
+      <div class="dash-tab" id="tab-leaderboard">
+        <div class="dash-section-header">
+          <h2>🏆 Leaderboard</h2>
+          <div class="lb-filter">
+            <button class="filter-btn active" data-role="all">All</button>
+            <button class="filter-btn" data-role="donor">Donors</button>
+            <button class="filter-btn" data-role="restaurant">Restaurants</button>
+            <button class="filter-btn" data-role="volunteer">Volunteers</button>
+          </div>
+        </div>
+        <div id="leaderboardList" class="leaderboard-list">
+          <div class="loading-state">Loading leaderboard...</div>
+        </div>
+      </div>
+
+      <!-- ── TAB: BADGES ── -->
+      <div class="dash-tab" id="tab-badges">
+        <div class="dash-section-header">
+          <h2>🎖️ My Badges & Achievements</h2>
+        </div>
+        <div id="badgesGrid" class="badges-grid">
+          <div class="loading-state">Loading badges...</div>
+        </div>
+
+        <!-- All possible badges -->
+        <div class="all-badges-section">
+          <h3>All Achievable Badges</h3>
+          <div class="all-badges-grid">
+            <div class="badge-card locked">
+              <div class="badge-emoji">🌱</div>
+              <div class="badge-name">Green Starter</div>
+              <div class="badge-req">Earn 100 points</div>
+            </div>
+            <div class="badge-card locked">
+              <div class="badge-emoji">♻️</div>
+              <div class="badge-name">Eco Warrior</div>
+              <div class="badge-req">Earn 500 points</div>
+            </div>
+            <div class="badge-card locked">
+              <div class="badge-emoji">🌍</div>
+              <div class="badge-name">Planet Saver</div>
+              <div class="badge-req">Earn 1000 points</div>
+            </div>
+            <div class="badge-card locked">
+              <div class="badge-emoji">🍽️</div>
+              <div class="badge-name">Food Hero</div>
+              <div class="badge-req">5 donations</div>
+            </div>
+            <div class="badge-card locked">
+              <div class="badge-emoji">🏆</div>
+              <div class="badge-name">Donation Champion</div>
+              <div class="badge-req">20 donations</div>
+            </div>
+            <div class="badge-card locked">
+              <div class="badge-emoji">🚀</div>
+              <div class="badge-name">Active Volunteer</div>
+              <div class="badge-req">Volunteer role</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: ADMIN PANEL ── -->
+      <div class="dash-tab" id="tab-admin-panel">
+        <div class="dash-section-header">
+          <h2>⚙️ Admin Panel</h2>
+          <span class="admin-badge-tag">Administrator</span>
+        </div>
+
+        <div class="admin-tabs">
+          <button class="admin-tab-btn active" data-atab="users">Users</button>
+          <button class="admin-tab-btn" data-atab="donations">Donations</button>
+          <button class="admin-tab-btn" data-atab="reports">Reports</button>
+        </div>
+
+        <div class="admin-content" id="adminContent">
+          <div class="loading-state">Loading admin data...</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/static/js/main.js"></script>
+  <script src="/static/js/animations.js"></script>
+  <script>
+    // Initialize dashboard on load
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.dashboardApp) {
+        window.dashboardApp.init();
+      }
+    });
+  </script>
+</body>
+</html>

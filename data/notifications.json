@@ -1,0 +1,69 @@
+[
+  {
+    "id": "n001",
+    "user_id": "u002",
+    "message": "\ud83c\udf7d\ufe0f Your donation 'Vegetable Curry' is available for pickup!",
+    "type": "donation",
+    "read": false,
+    "timestamp": "2026-03-01T12:49:47.466947"
+  },
+  {
+    "id": "n002",
+    "user_id": "u004",
+    "message": "\ud83d\udce6 Pickup accepted: Bread Loaves from Sarah Household",
+    "type": "pickup",
+    "read": false,
+    "timestamp": "2026-03-01T12:49:47.466949"
+  },
+  {
+    "id": "n003",
+    "user_id": "u003",
+    "message": "\u26a0\ufe0f New high-urgency donation available near you!",
+    "type": "alert",
+    "read": false,
+    "timestamp": "2026-03-01T12:49:47.466949"
+  },
+  {
+    "id": "8cb82f85-7f30-4cc6-89a9-91b6f3f458dc",
+    "user_id": "u002",
+    "message": "\u2705 Admin User has accepted your donation 'Vegetable Curry' for pickup!",
+    "type": "pickup_accepted",
+    "read": false,
+    "donation_id": "d001",
+    "timestamp": "2026-03-02T09:06:51.732673"
+  },
+  {
+    "id": "93433bdc-8690-41c8-8bf3-8968299dfb8d",
+    "user_id": "14f4a317-3b0b-48ce-8405-0dde97db46f0",
+    "message": "\ud83c\udf89 Welcome Bennett University! You've joined the Food Waste movement. +50 bonus points!",
+    "type": "welcome",
+    "read": false,
+    "timestamp": "2026-03-02T09:08:33.766024"
+  },
+  {
+    "id": "92baae26-e110-49f2-846a-c80610c4ee55",
+    "user_id": "14f4a317-3b0b-48ce-8405-0dde97db46f0",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-03-02T09:09:49.270116"
+  },
+  {
+    "id": "81af9570-8720-41a3-8f69-2d7914713bb3",
+    "user_id": "u003",
+    "message": "\ud83c\udd98 New CRITICAL donation: mixed vegetables at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "63c201f6-b45f-49e8-adce-be9f6045f333",
+    "timestamp": "2026-03-02T09:09:49.270515"
+  },
+  {
+    "id": "592a7587-eab2-433d-9929-159bf0dd2077",
+    "user_id": "u004",
+    "message": "\ud83c\udd98 New CRITICAL donation: mixed vegetables at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "63c201f6-b45f-49e8-adce-be9f6045f333",
+    "timestamp": "2026-03-02T09:09:49.270531"
+  }
+]
