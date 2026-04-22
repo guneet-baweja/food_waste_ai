@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restaurant Network — FoodSave AI</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+</head>
+<body class="dark-mode" data-page="network">
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <a href="/" style="text-decoration:none;color:inherit">
+        <span class="brand-icon">🌱</span>FoodSave<span class="accent">AI</span>
+      </a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><a href="/donate" class="nav-link">Donate Food</a></li>
+      <li><a href="/ngo" class="nav-link">NGO Portal</a></li>
+      <li><a href="/network" class="nav-link active">Network</a></li>
+      <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><span class="theme-icon">☀️</span></button>
+      <div id="navAuthArea"></div>
+    </div>
+  </nav>
+
+  <main class="network-shell">
+    <section class="network-stage">
+      <canvas id="networkCanvas" aria-hidden="true"></canvas>
+      <div class="network-stage-copy">
+        <div class="section-tag network-reveal">Restaurant Intelligence Exchange</div>
+        <h1 class="network-title network-reveal">Route food before waste exists.</h1>
+        <p class="network-kicker network-reveal">
+          Insure freshness, trade predicted waste, and mint local carbon credits across restaurants, NGOs, poultry partners, and biogas plants.
+        </p>
+      </div>
+      <div class="network-orbit" aria-hidden="true">
+        <div class="orbit-ring ring-one"></div>
+        <div class="orbit-ring ring-two"></div>
+        <div class="orbit-node node-restaurant">R</div>
+        <div class="orbit-node node-ngo">N</div>
+        <div class="orbit-node node-farm">P</div>
+        <div class="orbit-node node-biogas">B</div>
+      </div>
+    </section>
+
+    <section class="network-metrics network-reveal">
+      <div class="network-metric">
+        <span>Restaurants</span>
+        <strong id="netRestaurants">—</strong>
+      </div>
+      <div class="network-metric">
+        <span>NGOs</span>
+        <strong id="netNgos">—</strong>
+      </div>
+      <div class="network-metric">
+        <span>Poultry Partners</span>
+        <strong id="netPoultry">—</strong>
+      </div>
+      <div class="network-metric">
+        <span>Biogas Plants</span>
+        <strong id="netBiogas">—</strong>
+      </div>
+    </section>
+
+    <section class="network-grid">
+      <article class="network-panel network-reveal">
+        <div class="panel-head">
+          <span class="panel-index">01</span>
+          <div>
+            <h2>Freshness Insurance</h2>
+            <p>Guarantee edible life for incoming restaurant stock.</p>
+          </div>
+        </div>
+        <form id="fiaasForm" class="network-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fiaasRestaurant">Restaurant</label>
+              <input id="fiaasRestaurant" name="restaurant_name" class="form-input" value="Green Kitchen Restaurant" />
+            </div>
+            <div class="form-group">
+              <label for="fiaasSupplier">Supplier</label>
+              <input id="fiaasSupplier" name="supplier_name" class="form-input" value="North India Fresh Supply" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fiaasItem">Food Batch</label>
+              <input id="fiaasItem" name="food_item" class="form-input" value="Tomatoes and leafy greens" />
+            </div>
+            <div class="form-group">
+              <label for="fiaasType">Food Type</label>
+              <select id="fiaasType" name="food_type" class="form-input form-select">
+                <option value="raw">Raw</option>
+                <option value="cooked">Cooked</option>
+                <option value="dairy">Dairy</option>
+                <option value="meat">Meat</option>
+                <option value="bakery">Bakery</option>
+                <option value="packaged">Packaged</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fiaasQty">Quantity kg</label>
+              <input id="fiaasQty" name="quantity_kg" type="number" min="0.1" step="0.1" class="form-input" value="42" />
+            </div>
+            <div class="form-group">
+              <label for="fiaasValue">Insured Value INR</label>
+              <input id="fiaasValue" name="insured_value_inr" type="number" min="1" class="form-input" value="6200" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fiaasHours">Expected Fresh Hours</label>
+            <input id="fiaasHours" name="expected_hours" type="number" min="1" class="form-input" value="36" />
+          </div>
+          <button class="btn btn-primary btn-full" type="submit">Issue Freshness Contract</button>
+        </form>
+        <div id="fiaasResult" class="network-result"></div>
+      </article>
+
+      <article class="network-panel network-reveal">
+        <div class="panel-head">
+          <span class="panel-index">02</span>
+          <div>
+            <h2>Predictive Waste Exchange</h2>
+            <p>Turn tomorrow’s waste into bid-ready tokens today.</p>
+          </div>
+        </div>
+        <form id="pwxForm" class="network-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pwxRestaurant">Restaurant</label>
+              <input id="pwxRestaurant" name="restaurant_name" class="form-input" value="Jalsa Banashankari" />
+            </div>
+            <div class="form-group">
+              <label for="pwxInventory">Inventory kg</label>
+              <input id="pwxInventory" name="inventory_kg" type="number" min="1" class="form-input" value="160" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="pwxMenu">Menu Plan</label>
+            <textarea id="pwxMenu" name="menu_plan" class="form-input network-textarea">Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service</textarea>
+          </div>
+          <button class="btn btn-primary btn-full" type="submit">Create Waste Futures</button>
+        </form>
+        <div id="pwxResult" class="network-result"></div>
+      </article>
+
+      <article class="network-panel network-reveal">
+        <div class="panel-head">
+          <span class="panel-index">03</span>
+          <div>
+            <h2>Geo Carbon Credits</h2>
+            <p>Price credits by route, urgency, and distance.</p>
+          </div>
+        </div>
+        <form id="gcncForm" class="network-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gcncFoodType">Waste Type</label>
+              <select id="gcncFoodType" name="food_type" class="form-input form-select">
+                <option value="raw">Raw vegetable waste</option>
+                <option value="cooked">Cooked surplus</option>
+                <option value="dairy">Dairy risk</option>
+                <option value="meat">Meat trimmings</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="gcncRoute">Best Route</label>
+              <select id="gcncRoute" name="route_type" class="form-input form-select">
+                <option value="poultry">Poultry feed</option>
+                <option value="biogas">Biogas</option>
+                <option value="ngo">NGO rescue</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gcncQty">Quantity kg</label>
+              <input id="gcncQty" name="quantity_kg" type="number" min="0.1" step="0.1" class="form-input" value="55" />
+            </div>
+            <div class="form-group">
+              <label for="gcncDistance">Distance km</label>
+              <input id="gcncDistance" name="distance_km" type="number" min="0.1" step="0.1" class="form-input" value="4.5" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="gcncBuyer">Buyer</label>
+            <input id="gcncBuyer" name="buyer_name" class="form-input" value="Bennett Local Offset Pool" />
+          </div>
+          <button class="btn btn-primary btn-full" type="submit">Mint G-CNC Credit</button>
+        </form>
+        <div id="gcncResult" class="network-result"></div>
+      </article>
+    </section>
+
+    <section class="network-ledger network-reveal">
+      <div class="ledger-column">
+        <h3>Live Futures</h3>
+        <div id="futuresLedger" class="ledger-list"></div>
+      </div>
+      <div class="ledger-column">
+        <h3>Carbon Credits</h3>
+        <div id="creditsLedger" class="ledger-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toastContainer" class="toast-container"></div>
+  <script src="/static/js/main.js"></script>
+  <script src="/static/js/animations.js"></script>
+  <script src="/static/js/network.js"></script>
+</body>
+</html>

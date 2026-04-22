@@ -1,0 +1,35 @@
+{
+  "name": "ai-food-waste-3d",
+  "version": "1.0.0",
+  "description": "A cinematic, scroll-driven 3D website for an AI Powered Food Waste Management Platform.",
+  "main": "src/main.tsx",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "three": "^0.136.0",
+    "gsap": "^3.9.1",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "vite": "^2.6.4",
+    "typescript": "^4.4.3",
+    "vite-plugin-react": "^1.0.0"
+  },
+  "keywords": [
+    "3D",
+    "WebGL",
+    "Three.js",
+    "React",
+    "GSAP",
+    "AI",
+    "Food Waste Management"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

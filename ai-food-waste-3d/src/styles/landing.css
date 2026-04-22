@@ -1,0 +1,138 @@
+/* filepath: /ai-food-waste-3d/ai-food-waste-3d/src/styles/landing.css */
+
+/* ══════════════════════════════════════════
+   AI Powered Food Waste Management Platform — LANDING PAGE CSS
+══════════════════════════════════════════ */
+
+/* ─── Variables ─── */
+:root {
+  --bg:        #03050a;
+  --bg2:       #060d14;
+  --green:     #00ff88;
+  --blue:      #00d4ff;
+  --purple:    #b48eff;
+  --red:       #ff6b6b;
+  --gold:      #ffd93d;
+  --text:      #f0f4ff;
+  --text2:     rgba(240,244,255,0.6);
+  --text3:     rgba(240,244,255,0.3);
+  --glass:     rgba(255,255,255,0.04);
+  --glass-b:   rgba(255,255,255,0.08);
+  --glow-g:    0 0 30px rgba(0,255,136,0.3);
+  --glow-b:    0 0 30px rgba(0,212,255,0.3);
+  --font-d:    'Syne', sans-serif;
+  --font-b:    'DM Sans', sans-serif;
+  --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ─── LOADING SCREEN ─── */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s var(--ease), visibility 0.8s;
+}
+
+#loadingScreen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ─── HERO SECTION ─── */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 120px 5%;
+}
+
+.hero-title {
+  font-family: var(--font-d);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 900;
+  color: var(--green);
+  text-align: center;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text2);
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease) forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── BUTTONS ─── */
+.btn-primary-glow {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.85rem 2rem;
+  border-radius: 12px;
+  font-family: var(--font-b);
+  font-size: 1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--green), #00b8ff);
+  color: #03050a;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 6px 30px rgba(0,255,136,0.35);
+}
+
+.btn-primary-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(0,255,136,0.5);
+}
+
+/* ─── SCROLL HINT ─── */
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  animation: fadeUp 1s ease 3.5s forwards;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .hero-section { padding: 100px 5% 60px; }
+}

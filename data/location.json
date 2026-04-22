@@ -1,0 +1,109 @@
+{
+  "ngos": [
+    {
+      "id": "ngo001",
+      "name": "Akshaya Patra Foundation",
+      "address": "Bangalore, Karnataka",
+      "lat": 12.9716,
+      "lng": 77.5946,
+      "phone": "+91-80-30143400",
+      "capacity_kg": 500,
+      "active": true
+    },
+    {
+      "id": "ngo002",
+      "name": "Robin Hood Army",
+      "address": "Delhi, India",
+      "lat": 28.6139,
+      "lng": 77.2090,
+      "phone": "+91-98100-00000",
+      "capacity_kg": 300,
+      "active": true
+    },
+    {
+      "id": "ngo003",
+      "name": "No Food Waste",
+      "address": "Chennai, Tamil Nadu",
+      "lat": 13.0827,
+      "lng": 80.2707,
+      "phone": "+91-44-00000000",
+      "capacity_kg": 400,
+      "active": true
+    },
+    {
+      "id": "ngo004",
+      "name": "Feeding India",
+      "address": "Mumbai, Maharashtra",
+      "lat": 19.0760,
+      "lng": 72.8777,
+      "phone": "+91-22-00000000",
+      "capacity_kg": 600,
+      "active": true
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "res001",
+      "name": "Haldirams",
+      "address": "Connaught Place, Delhi",
+      "lat": 28.6315,
+      "lng": 77.2167,
+      "avg_daily_waste_kg": 40
+    },
+    {
+      "id": "res002",
+      "name": "Barbeque Nation",
+      "address": "Koramangala, Bangalore",
+      "lat": 12.9352,
+      "lng": 77.6245,
+      "avg_daily_waste_kg": 60
+    }
+  ],
+  "biogas_plants": [
+    {
+      "id": "bio001",
+      "name": "Delhi Biogas Plant",
+      "address": "Okhla, New Delhi",
+      "lat": 28.5355,
+      "lng": 77.2910,
+      "capacity_kg": 1000,
+      "active": true
+    },
+    {
+      "id": "bio002",
+      "name": "Pune Green Energy Plant",
+      "address": "Hadapsar, Pune",
+      "lat": 18.5014,
+      "lng": 73.9258,
+      "capacity_kg": 800,
+      "active": true
+    },
+    {
+      "id": "bio003",
+      "name": "Chennai Bio-Energy Hub",
+      "address": "Perungudi, Chennai",
+      "lat": 12.9591,
+      "lng": 80.2449,
+      "capacity_kg": 750,
+      "active": true
+    }
+  ],
+  "cafeterias": [
+    {
+      "id": "caf001",
+      "name": "IIT Delhi Cafeteria",
+      "address": "Hauz Khas, New Delhi",
+      "lat": 28.5459,
+      "lng": 77.1926,
+      "avg_daily_waste_kg": 25
+    },
+    {
+      "id": "caf002",
+      "name": "Infosys Campus Cafeteria",
+      "address": "Electronic City, Bangalore",
+      "lat": 12.8399,
+      "lng": 77.6770,
+      "avg_daily_waste_kg": 80
+    }
+  ]
+}

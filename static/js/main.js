@@ -25,14 +25,17 @@
     stats:        '/api/stats',
     notifications:'/api/notifications',
     profile:      '/api/user/profile',
+    nearbyEntities: '/api/nearby_entities',
     adminUsers:   '/api/admin/users',
     adminApprove: '/api/admin/approve',
-    adminDelete:  '/api/admin/delete'
+    adminDelete:  '/api/admin/delete',
+    dashboardAnalytics: '/api/dashboard_analytics'
   };
 
   // App state
   let currentUser = null;
   const page = document.body.dataset.page;
+  const chartRegistry = {};
 
   /* ═══════════════════════════════════════════
      1. TOAST NOTIFICATION SYSTEM
@@ -62,6 +65,8 @@
     const timer = setTimeout(() => removeToast(toast), duration);
     toast._timer = timer;
   }
+
+  window.showToast = showToast;
 
   function removeToast(toast) {
     clearTimeout(toast._timer);
@@ -107,6 +112,7 @@
       const data = await apiFetch(API.session);
       if (data.logged_in && data.user) {
         currentUser = data.user;
+        window._currentUser = data.user;
         // Also save to localStorage as backup
         localStorage.setItem('foodsave_user', JSON.stringify(data.user));
         updateNavAuth(data.user);
@@ -412,28 +418,99 @@
       });
     });
 
+    function hasCapturedLocation() {
+      const latRaw = document.getElementById('latHidden')?.value.trim();
+      const lngRaw = document.getElementById('lngHidden')?.value.trim();
+      if (!latRaw || !lngRaw) return false;
+
+      const lat = Number(latRaw);
+      const lng = Number(lngRaw);
+      return Number.isFinite(lat) && Number.isFinite(lng)
+        && lat >= -90 && lat <= 90
+        && lng >= -180 && lng <= 180;
+    }
+
+    function isLocalHost() {
+      return ['localhost', '127.0.0.1', '[::1]', '::1'].includes(window.location.hostname);
+    }
+
+    function locationOriginMessage() {
+      if (window.isSecureContext || isLocalHost()) {
+        return '';
+      }
+
+      const port = window.location.port ? `:${window.location.port}` : '';
+      return `Chrome blocks GPS on this address. Open http://localhost${port}/donate and allow location access.`;
+    }
+
+    function geolocationErrorMessage(err) {
+      const originMessage = locationOriginMessage();
+      if (originMessage) return originMessage;
+
+      if (err?.code === 1) return 'Location permission was blocked. Allow location access in the browser and try again.';
+      if (err?.code === 2) return 'Your device could not find a GPS position. Check Wi-Fi/GPS and try again.';
+      if (err?.code === 3) return 'Location request timed out. Try again near a window or with GPS enabled.';
+      return 'Could not access your location.';
+    }
+
+    async function capturePickupLocation({ silent = false } = {}) {
+      if (!navigator.geolocation) {
+        if (!silent) showToast('Not Supported', 'Geolocation is not supported by your browser', 'warning');
+        return false;
+      }
+
+      const originMessage = locationOriginMessage();
+      if (originMessage) {
+        if (!silent) showToast('Location Blocked', originMessage, 'error', 8000);
+        return false;
+      }
+
+      if (detectBtn) {
+        detectBtn.textContent = '⏳';
+        detectBtn.disabled = true;
+      }
+
+      return new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const accuracy = pos.coords.accuracy ? Math.round(pos.coords.accuracy) : null;
+            const locationInput = document.getElementById('location');
+
+            document.getElementById('latHidden').value = lat;
+            document.getElementById('lngHidden').value = lng;
+
+            if (locationInput && (!locationInput.value.trim() || locationInput.dataset.gpsFilled === 'true')) {
+              locationInput.value = accuracy
+                ? `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)} (accuracy ${accuracy}m)`
+                : `GPS: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+              locationInput.dataset.gpsFilled = 'true';
+            }
+
+            if (detectBtn) {
+              detectBtn.textContent = '✅';
+              detectBtn.disabled = false;
+            }
+            if (!silent) showToast('Location Detected', 'GPS coordinates saved for NGO pickup matching.', 'success');
+            resolve(true);
+          },
+          (err) => {
+            if (detectBtn) {
+              detectBtn.textContent = '📍';
+              detectBtn.disabled = false;
+            }
+            if (!silent) showToast('Location Error', geolocationErrorMessage(err), 'error', 8000);
+            resolve(false);
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
+        );
+      });
+    }
+
     // Detect location
     const detectBtn = document.getElementById('detectLocation');
-    detectBtn?.addEventListener('click', () => {
-      if (!navigator.geolocation) {
-        showToast('Not Supported', 'Geolocation is not supported by your browser', 'warning');
-        return;
-      }
-      detectBtn.textContent = '⏳';
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          document.getElementById('latHidden').value = pos.coords.latitude;
-          document.getElementById('lngHidden').value = pos.coords.longitude;
-          document.getElementById('location').value = `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
-          detectBtn.textContent = '✅';
-          showToast('Location Detected', 'Your location has been captured', 'success');
-        },
-        () => {
-          detectBtn.textContent = '📍';
-          showToast('Location Error', 'Could not access your location', 'error');
-        }
-      );
-    });
+    detectBtn?.addEventListener('click', () => capturePickupLocation());
 
     // Image upload preview
     const uploadZone  = document.getElementById('uploadZone');
@@ -444,7 +521,10 @@
 
     fileInput?.addEventListener('change', () => {
       const file = fileInput.files[0];
-      if (file) showImagePreview(file);
+      if (file) {
+        showImagePreview(file);
+        capturePickupLocation();
+      }
     });
 
     // Drag & drop
@@ -466,6 +546,7 @@
         dt.items.add(file);
         fileInput.files = dt.files;
         showImagePreview(file);
+        capturePickupLocation();
       }
     });
 
@@ -498,9 +579,15 @@
       btnLoader.style.display = 'block';
       btn.disabled = true;
 
-      const formData = new FormData(form);
-
       try {
+        if (!hasCapturedLocation()) {
+          const captured = await capturePickupLocation({ silent: true });
+          if (!captured) {
+            throw new Error(geolocationErrorMessage());
+          }
+        }
+
+        const formData = new FormData(form);
         const data = await apiFetch(API.uploadFood, {
           method: 'POST',
           body: formData
@@ -509,12 +596,12 @@
         if (data.success) {
           // Show AI prediction
           showAIPrediction(data.ai_prediction);
+          showMatchResults(data.matches);
 
           showToast('Donation Listed! 🍽️', `+100 points earned! ${data.ai_prediction.urgency.toUpperCase()} urgency detected.`, 'success', 6000);
-
-          setTimeout(() => {
-            window.location.href = '/dashboard';
-          }, 3000);
+          btnText.style.display = 'block';
+          btnLoader.style.display = 'none';
+          btn.disabled = false;
         }
       } catch (err) {
         showToast('Upload Failed', err.message || 'Could not list donation. Please try again.', 'error');
@@ -529,33 +616,141 @@
     loadImpactMini();
   }
 
-  function showAIPrediction(pred) {
-    const card     = document.getElementById('aiPrediction');
-    const scoreEl  = document.getElementById('freshnessScore');
-    const fillEl   = document.getElementById('freshnessFill');
-    const badgeEl  = document.getElementById('urgencyBadge');
-    const hoursEl  = document.getElementById('hoursLeft');
+  function showMatchResults(matches) {
+    const card = document.getElementById('matchResults');
+    const list = document.getElementById('matchResultsList');
+    const route = document.getElementById('matchRoute');
+    if (!card || !list || !matches) return;
 
-    if (!card) return;
+    const ngos = matches.ngos || [];
+    const farms = matches.poultry_farms || [];
+    const routeLabels = {
+      ngo: 'NGO relief route',
+      poultry_farm: 'Poultry feed route',
+      poultry_or_biogas: 'Animal feed or biogas',
+      biogas: 'Biogas route',
+      manual_review: 'Manual review'
+    };
+    if (route) route.textContent = routeLabels[matches.recommended_route] || 'Smart route';
 
-    card.style.display = 'block';
-    scoreEl.textContent = pred.freshness_score + ' / 100';
-    fillEl.style.width = pred.freshness_score + '%';
+    const rows = [
+      ...ngos.slice(0, 4).map(m => ({ kind: 'NGO', icon: '🏥', entity: m.ngo, ...m })),
+      ...farms.slice(0, 3).map(m => ({ kind: 'Farm', icon: '🐔', entity: m.poultry_farm, ...m }))
+    ];
 
-    // Color fill by score
-    if (pred.freshness_score >= 70) {
-      fillEl.style.background = 'var(--grad-primary)';
-    } else if (pred.freshness_score >= 40) {
-      fillEl.style.background = 'linear-gradient(90deg, #ffd93d, #ffa500)';
+    if (!rows.length) {
+      list.innerHTML = '<div class="nearby-empty">No verified partner found near this pickup yet. The donation is still listed for manual acceptance.</div>';
     } else {
-      fillEl.style.background = 'linear-gradient(90deg, #ff6b6b, #ff4444)';
+      list.innerHTML = rows.map(row => `
+        <div class="match-result-item">
+          <div class="match-rank">${row.icon}</div>
+          <div class="match-copy">
+            <strong>${row.entity?.name || 'Partner'}</strong>
+            <span>${row.kind} · ${row.distance_km} km · score ${row.score}</span>
+            <small>${row.reason}</small>
+          </div>
+          <div class="match-accuracy ${row.location_accuracy === 'exact' ? 'exact' : 'estimated'}">
+            ${row.location_accuracy === 'exact' ? 'GPS' : 'Estimated'}
+          </div>
+        </div>
+      `).join('');
     }
 
-    badgeEl.textContent = pred.urgency.charAt(0).toUpperCase() + pred.urgency.slice(1);
-    badgeEl.className = `urgency-badge ${pred.urgency}`;
-    hoursEl.textContent = pred.hours_remaining > 0
-      ? `⏱ ${pred.hours_remaining} hours remaining`
-      : '⚠️ Already expired';
+    card.style.display = 'block';
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function showAIPrediction(pred) {
+    const card     = document.getElementById('aiPrediction');
+    const bodyEl   = document.getElementById('aiPredictionBody');
+
+    if (!card || !bodyEl) return;
+
+    card.style.display = 'block';
+
+    const active = pred || {};
+    const expiry = pred.expiry_prediction || null;
+    const model = pred.model_prediction || null;
+
+    function meter(score, label, meta, urgency, extra = '') {
+      const safeScore = Number.isFinite(score) ? Math.max(0, Math.min(100, score)) : 0;
+      let fillBackground = 'var(--grad-primary)';
+      if (safeScore < 70 && safeScore >= 40) fillBackground = 'linear-gradient(90deg, #ffd93d, #ffa500)';
+      if (safeScore < 40) fillBackground = 'linear-gradient(90deg, #ff6b6b, #ff4444)';
+      return `
+        <div class="prediction-mode-card">
+          <div class="prediction-mode-head">
+            <strong>${label}</strong>
+            ${urgency ? `<span class="urgency-badge ${urgency}">${urgency.replace('_', ' ')}</span>` : ''}
+          </div>
+          <div class="freshness-meter">
+            <div class="freshness-label">Freshness Score</div>
+            <div class="freshness-bar">
+              <div class="freshness-fill" style="width:${safeScore}%;background:${fillBackground}"></div>
+            </div>
+            <div class="freshness-num">${safeScore} / 100</div>
+          </div>
+          <div class="hours-left">${meta || ''}</div>
+          ${extra}
+        </div>
+      `;
+    }
+
+    const activeMeta = active.hours_remaining > 0
+      ? `⏱ ${active.hours_remaining} hours remaining`
+      : active.hours_remaining === 0
+        ? '⚠️ Already expired'
+        : (active.predicted_class ? `Classified as ${active.predicted_class}` : '');
+
+    const blocks = [
+      meter(
+        active.freshness_score,
+        `Active Result · ${active.selected_mode || active.prediction_source || 'prediction'}`,
+        activeMeta,
+        active.urgency,
+        [
+          active.model_confidence ? `<div class="form-hint">Trained model confidence: ${active.model_confidence}%</div>` : '',
+          active.recommended_route ? `<div class="form-hint">Recommended route: ${active.recommended_route}</div>` : ''
+        ].filter(Boolean).join('')
+      )
+    ];
+
+    if (expiry) {
+      blocks.push(
+        meter(
+          expiry.freshness_score,
+          'Expiry-based result',
+          expiry.hours_remaining > 0 ? `⏱ ${expiry.hours_remaining} hours remaining` : '⚠️ Already expired',
+          expiry.urgency
+        )
+      );
+    }
+
+    if (model?.available) {
+      blocks.push(
+        meter(
+          model.freshness_score,
+          `Trained model result · ${model.model_name || 'model'}`,
+          `Confidence: ${model.confidence}% · Class: ${model.predicted_class}`,
+          model.urgency,
+          [
+            model.checkpoint_name ? `<div class="form-hint">Checkpoint: ${model.checkpoint_name}</div>` : '',
+            model.probabilities ? `<div class="form-hint">Top class comes from your trained image model.</div>` : ''
+          ].filter(Boolean).join('')
+        )
+      );
+    } else if (active.selected_mode !== 'expiry') {
+      blocks.push(`
+        <div class="prediction-mode-card prediction-mode-muted">
+          <div class="prediction-mode-head">
+            <strong>Trained model status</strong>
+          </div>
+          <div class="hours-left">${model?.reason || 'The trained image model is not available in this runtime yet.'}</div>
+        </div>
+      `);
+    }
+
+    bodyEl.innerHTML = blocks.join('');
   }
 
   async function loadUrgentDonations() {
@@ -616,6 +811,7 @@
     if (!list) return;
 
     let allDonations = [];
+    let ngoSearchLocation = null;
 
     async function loadDonations() {
       list.innerHTML = `<div class="loading-state"><div class="loading-spinner"></div>Loading donations...</div>`;
@@ -628,6 +824,9 @@
         let url = API.getDonations + '?limit=50';
         if (status) url += `&status=${status}`;
         if (foodType) url += `&food_type=${foodType}`;
+        if (ngoSearchLocation) {
+          url += `&lat=${ngoSearchLocation.lat}&lng=${ngoSearchLocation.lng}&radius_km=${ngoSearchLocation.radius}`;
+        }
 
         const data = await apiFetch(url);
         let donations = data.donations || [];
@@ -664,6 +863,22 @@
         }
 
         list.innerHTML = donations.map(d => renderDonationCard(d)).join('');
+        // Initialize map with donation pins
+if (!window.MapModule._mapInitialized) {
+  window.MapModule.initMap('donationMap', 20.5937, 78.9629, 5);
+  window.MapModule.initToggle();
+  window.MapModule._mapInitialized = true;
+}
+window.MapModule.addDonationMarkers(donations);
+
+// Load NGOs and biogas on map too
+fetch('/api/locations')
+  .then(r => r.json())
+  .then(data => {
+    if (data.ngos)   window.MapModule.addNGOMarkers(data.ngos);
+    if (data.biogas) window.MapModule.addBiogasMarkers(data.biogas);
+    if (data.poultry_farms) window.MapModule.addPoultryMarkers(data.poultry_farms);
+  }).catch(() => {});
 
       } catch (err) {
         list.innerHTML = `<div class="loading-state" style="color:var(--accent-red)">Error: ${err.message}</div>`;
@@ -785,6 +1000,69 @@
 
     document.getElementById('sortSelect')?.addEventListener('change', loadDonations);
 
+    async function detectNGOLocation() {
+      if (!navigator.geolocation) {
+        showToast('Not Supported', 'Geolocation is not supported by your browser', 'warning');
+        return null;
+      }
+      return new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+          () => resolve(null),
+          { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 }
+        );
+      });
+    }
+
+    async function findNearbyRestaurants() {
+      const container = document.getElementById('nearbyRestaurants');
+      const radius = document.getElementById('restaurantRadius')?.value || '10';
+      const btn = document.getElementById('findRestaurantsBtn');
+      if (!container) return;
+
+      container.innerHTML = '<div class="nearby-empty">Finding restaurants and sorting by distance...</div>';
+      if (btn) btn.disabled = true;
+
+      const loc = await detectNGOLocation();
+      if (!loc) {
+        container.innerHTML = '<div class="nearby-empty">Location permission is needed to search nearby restaurants.</div>';
+        showToast('Location Needed', 'Allow GPS access so nearby restaurants can be ranked accurately.', 'warning');
+        if (btn) btn.disabled = false;
+        return;
+      }
+
+      ngoSearchLocation = { ...loc, radius };
+
+      try {
+        const data = await apiFetch(`${API.nearbyEntities}?lat=${loc.lat}&lng=${loc.lng}&radius_km=${radius}&limit=10`);
+        const restaurants = data.restaurants || [];
+        if (!restaurants.length) {
+          container.innerHTML = '<div class="nearby-empty">No restaurants found in this radius. Try 20 km or 50 km.</div>';
+        } else {
+          container.innerHTML = restaurants.map(item => {
+            const r = item.restaurant || {};
+            return `
+              <div class="nearby-restaurant-item">
+                <strong>${r.name || 'Restaurant'}</strong>
+                <span>${item.distance_km} km · ${r.city || r.area || 'India'} · ${r.rating || 0} rating</span>
+                <small>${r.address || r.cuisines || 'Restaurant partner'}</small>
+                <em>${item.location_accuracy === 'exact' ? 'Exact GPS from dataset' : 'Estimated coordinate'}</em>
+              </div>
+            `;
+          }).join('');
+        }
+        showToast('Nearby Search Ready', `${restaurants.length} restaurants found. Donation list is now filtered near you.`, 'success');
+        loadDonations();
+      } catch (err) {
+        container.innerHTML = `<div class="nearby-empty">Could not load restaurants: ${err.message}</div>`;
+        showToast('Nearby Search Failed', err.message, 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    document.getElementById('findRestaurantsBtn')?.addEventListener('click', findNearbyRestaurants);
+
     // Modal close
     document.getElementById('modalClose')?.addEventListener('click', () => {
       document.getElementById('donationModal').style.display = 'none';
@@ -796,8 +1074,13 @@
       }
     });
 
-    // Expose for inline onclick
-    window.ngoApp = { acceptDonation, completeDonation, showDetail };
+      // Expose for inline onclick + real-time refresh
+    window.ngoApp = { 
+      acceptDonation, 
+      completeDonation, 
+      showDetail,
+      loadDonations   // ← Make loadDonations accessible
+    };
 
     // Initial load
     loadDonations();
@@ -810,6 +1093,7 @@
   function initDashboard() {
     const layout = document.querySelector('.dashboard-layout');
     if (!layout) return;
+    let dashboardDonations = [];
 
     async function init() {
       const user = await checkSession();
@@ -821,6 +1105,7 @@
       }
 
       currentUser = user;
+      window._currentUser = user;
       updateSidebarUser(user);
       loadNotifications();
 
@@ -887,17 +1172,16 @@
 
     async function loadOverview() {
       try {
-        const [profileData, statsData] = await Promise.all([
+        const [profileData, statsData, analyticsData] = await Promise.all([
           apiFetch(API.profile),
-          apiFetch(API.stats)
+          apiFetch(API.stats),
+          apiFetch(API.dashboardAnalytics)
         ]);
 
         if (profileData.success) {
           const user = profileData.user;
-          const meals = Math.round(user.total_donations * 8);
 
           const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-          set('statMeals', meals || 0);
           set('statCO2', (user.co2_saved || 0).toFixed(1));
           set('statPoints', (user.points || 0).toLocaleString());
 
@@ -914,13 +1198,19 @@
         if (statsData.success) {
           const s = statsData.stats;
           const setP = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+          setP('statMeals', s.total_donations || 0);
           setP('platMeals', s.total_meals_donated?.toLocaleString() || '—');
           setP('platCO2', s.total_co2_saved?.toFixed(1) || '—');
           setP('platUsers', s.total_users || '—');
           setP('platDonations', s.total_donations || '—');
         }
+
+        if (analyticsData.success) {
+          renderDashboardAnalytics(analyticsData.analytics);
+        }
       } catch (err) {
         console.warn('[Overview] Error:', err);
+        renderDashboardError(err);
       }
     }
 
@@ -951,6 +1241,290 @@
       return icons[type] || '📬';
     }
 
+    async function dashboardAcceptDonation(id) {
+      try {
+        const data = await apiFetch(API.accept, {
+          method: 'POST',
+          body: JSON.stringify({ donation_id: id })
+        });
+        if (data.success) {
+          showToast('Pickup Accepted', data.message, 'success');
+          await loadMyDonations();
+          await loadOverview();
+        }
+      } catch (err) {
+        showToast('Accept Failed', err.message || 'Could not accept this pickup', 'error');
+      }
+    }
+
+    async function dashboardCompleteDonation(id) {
+      try {
+        const data = await apiFetch(API.complete, {
+          method: 'POST',
+          body: JSON.stringify({ donation_id: id })
+        });
+        if (data.success) {
+          showToast('Pickup Completed', data.message, 'success');
+          await loadMyDonations();
+          await loadOverview();
+        }
+      } catch (err) {
+        showToast('Complete Failed', err.message || 'Could not complete this pickup', 'error');
+      }
+    }
+
+    function showDashboardDonationDetail(id) {
+      const d = dashboardDonations.find(item => item.id === id);
+      if (!d) return;
+
+      let modal = document.getElementById('dashboardDonationModal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'dashboardDonationModal';
+        modal.className = 'modal-overlay';
+        document.body.appendChild(modal);
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.style.display = 'none';
+        });
+      }
+
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width:640px">
+          <button class="modal-close" onclick="document.getElementById('dashboardDonationModal').style.display='none'">×</button>
+          <h2 style="font-family:var(--font-display);margin-bottom:1rem">${d.food_name}</h2>
+          ${d.image ? `<img src="${d.image}" style="width:100%;height:220px;object-fit:cover;border-radius:var(--radius-md);margin-bottom:1rem" alt="${d.food_name}">` : ''}
+          <div class="detail-grid">
+            ${[
+              ['Status', d.status],
+              ['Urgency', d.urgency],
+              ['Freshness', `${d.freshness_score}/100`],
+              ['Quantity', `${d.quantity} ${d.quantity_unit}`],
+              ['Pickup', d.location],
+              ['Coordinates', d.coordinates ? `${Number(d.coordinates.lat).toFixed(5)}, ${Number(d.coordinates.lng).toFixed(5)}` : 'Not captured'],
+              ['CO₂ Saved', `${d.co2_saved || 0} kg`],
+              ['Listed', relativeTime(d.created_at)]
+            ].map(([k, v]) => `<div><span>${k}</span><strong>${v || '—'}</strong></div>`).join('')}
+          </div>
+          <p style="color:var(--text-secondary);line-height:1.6;margin-top:1rem">${d.description || 'No description provided.'}</p>
+        </div>
+      `;
+      modal.style.display = 'flex';
+    }
+
+    function renderDashboardError(err) {
+      ['modelPerfPanel', 'routingAnalytics', 'platStatsPanel'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = `<div class="loading-state" style="color:var(--accent-red)">Dashboard data failed: ${err.message || 'Unknown error'}</div>`;
+      });
+    }
+
+    function renderDashboardAnalytics(a) {
+      const set = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+
+      const confidenceText = a.ai.avg_confidence === null ? 'Rule-based' : `${a.ai.avg_confidence}%`;
+      set('statConfDash', confidenceText);
+      set('predCount', `${a.ai.prediction_count || a.ai.recent_predictions.length} total`);
+
+      renderPredictionTable(a.ai.recent_predictions || []);
+      renderModelPerformance(a);
+      renderRoutingAnalytics(a.routing);
+      renderPlatformPanel(a);
+      renderDashboardMap(a.map_donations || []);
+    }
+
+    function renderPredictionTable(predictions) {
+      const body = document.getElementById('predTableBody');
+      if (!body) return;
+
+      if (!predictions.length) {
+        body.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted)">No AI predictions logged yet.</td></tr>';
+        return;
+      }
+
+      body.innerHTML = predictions.map(p => {
+        const conf = p.confidence === null || p.confidence === undefined ? 'rules' : `${Math.round(Number(p.confidence) * 100)}%`;
+        const food = p.food_name || 'Food item';
+        const klass = p.predicted_class || p.urgency || 'unknown';
+        const route = p.recommended_route || (klass === 'expired' ? 'Biogas' : 'NGO');
+        return `
+          <tr style="border-bottom:1px solid var(--border-color)">
+            <td style="padding:0.65rem 0.75rem;color:var(--text-muted)">${relativeTime(p.timestamp)}</td>
+            <td style="padding:0.65rem 0.75rem;font-weight:700">${food}</td>
+            <td style="padding:0.65rem 0.75rem">${urgencyBadgeHTML(klass)}</td>
+            <td style="padding:0.65rem 0.75rem;color:var(--accent-blue)">${conf}</td>
+            <td style="padding:0.65rem 0.75rem;color:var(--accent-green);font-weight:700">${route}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderModelPerformance(a) {
+      const panel = document.getElementById('modelPerfPanel');
+      if (!panel) return;
+
+      panel.innerHTML = `
+        <div class="analytics-kpi-grid">
+          <div class="analytics-kpi"><span>${a.ai.avg_freshness}</span><small>Avg freshness score</small></div>
+          <div class="analytics-kpi"><span>${a.ai.prediction_count}</span><small>AI predictions logged</small></div>
+          <div class="analytics-kpi"><span>${a.donations.total}</span><small>Donation samples</small></div>
+        </div>
+        <div class="chart-wrap"><canvas id="urgencyChart"></canvas></div>
+      `;
+
+      renderChart('urgencyChart', 'doughnut', Object.keys(a.donations.by_urgency), Object.values(a.donations.by_urgency), [
+        '#ff5c7a', '#ffcc4d', '#20d3ff', '#00ff88', '#8c8f99', '#ff8a3d'
+      ]);
+    }
+
+    function renderRoutingAnalytics(routing) {
+      const panel = document.getElementById('routingAnalytics');
+      if (!panel) return;
+
+      panel.innerHTML = `
+        <div class="route-metrics">
+          <div><strong>${routing.active_pickups}</strong><span>active pickups</span></div>
+          <div><strong>${routing.optimized_distance_km} km</strong><span>optimized route load</span></div>
+          <div><strong>${routing.distance_saved_km} km</strong><span>distance saved</span></div>
+          <div><strong>${routing.estimated_time_saved_min} min</strong><span>ETA saved</span></div>
+        </div>
+        <div class="route-progress">
+          <div style="width:${Math.min(routing.nearest_match_rate, 100)}%"></div>
+        </div>
+        <div class="route-note">${routing.nearest_match_rate}% nearest-match routing rate</div>
+        <div class="chart-wrap small"><canvas id="routeChart"></canvas></div>
+      `;
+
+      renderChart('routeChart', 'bar', Object.keys(routing.route_distribution), Object.values(routing.route_distribution), [
+        '#00ff88', '#ffd93d', '#ff5c7a'
+      ]);
+    }
+
+    function renderPlatformPanel(a) {
+      const panel = document.getElementById('platStatsPanel');
+      if (!panel) return;
+
+      const status = a.donations.by_status || {};
+      const cities = Object.entries(a.donations.by_city || {});
+      panel.innerHTML = `
+        <div class="analytics-kpi-grid">
+          <div class="analytics-kpi"><span>${a.donations.available}</span><small>available</small></div>
+          <div class="analytics-kpi"><span>${a.donations.accepted}</span><small>in transit</small></div>
+          <div class="analytics-kpi"><span>${a.donations.completed}</span><small>completed</small></div>
+        </div>
+        <div class="status-bars">
+          ${Object.entries(status).map(([name, count]) => `
+            <div class="status-row">
+              <span>${name}</span>
+              <div><i style="width:${Math.max(8, count / Math.max(a.donations.total, 1) * 100)}%"></i></div>
+              <b>${count}</b>
+            </div>
+          `).join('')}
+        </div>
+        <div class="city-list">
+          ${cities.map(([city, count]) => `<span>${city}<b>${count}</b></span>`).join('') || '<span>No city data yet</span>'}
+        </div>
+      `;
+    }
+
+    function renderChart(canvasId, type, labels, values, colors) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      if (chartRegistry[canvasId]) chartRegistry[canvasId].destroy();
+      chartRegistry[canvasId] = new Chart(canvas, {
+        type,
+        data: {
+          labels,
+          datasets: [{
+            data: values,
+            backgroundColor: colors,
+            borderColor: 'rgba(255,255,255,0.12)',
+            borderWidth: 1,
+            borderRadius: type === 'bar' ? 6 : 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: '#a7adbb', boxWidth: 10, font: { size: 11 } } }
+          },
+          scales: type === 'bar' ? {
+            x: { ticks: { color: '#a7adbb' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+            y: { ticks: { color: '#a7adbb', precision: 0 }, grid: { color: 'rgba(255,255,255,0.06)' } }
+          } : {}
+        }
+      });
+    }
+
+    function renderDashboardMap(donations) {
+      const el = document.getElementById('dashboardMap');
+      if (!el) return;
+      if (typeof L === 'undefined') {
+        el.innerHTML = '<div class="loading-state">Map library unavailable.</div>';
+        return;
+      }
+
+      if (window._dashboardLeafletMap) {
+        window._dashboardLeafletMap.remove();
+      }
+
+      const map = L.map('dashboardMap', { zoomControl: true }).setView([20.5937, 78.9629], 5);
+      window._dashboardLeafletMap = map;
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'OpenStreetMap',
+        maxZoom: 18
+      }).addTo(map);
+
+      const markers = [];
+      const iconFor = (d) => {
+        const color = d.urgency === 'expired' ? '#ff5c7a' : d.urgency === 'medium' ? '#ffd93d' : '#00ff88';
+        return L.divIcon({
+          className: '',
+          html: `<div class="map-pin-dot" style="background:${color}"></div>`,
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
+        });
+      };
+
+      donations.forEach(d => {
+        const lat = d.coordinates?.lat;
+        const lng = d.coordinates?.lng;
+        if (lat === undefined || lng === undefined) return;
+
+        const marker = L.marker([lat, lng], { icon: iconFor(d) }).addTo(map);
+        marker._donationStatus = d.status || 'available';
+        marker.bindPopup(`
+          <strong>${d.food_name || 'Food donation'}</strong><br>
+          ${d.location || 'Pickup location'}<br>
+          ${d.quantity || 0} ${d.quantity_unit || ''} · ${d.urgency || 'safe'}
+        `);
+        markers.push(marker);
+      });
+
+      if (markers.length) {
+        map.fitBounds(L.featureGroup(markers).getBounds().pad(0.18));
+      }
+
+      window.dashboardMap = {
+        filterMarkers(status) {
+          document.querySelectorAll('[data-mapfilter]').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mapfilter === status);
+          });
+          markers.forEach(marker => {
+            const visible = status === 'all' || marker._donationStatus === status;
+            if (visible && !map.hasLayer(marker)) marker.addTo(map);
+            if (!visible && map.hasLayer(marker)) marker.remove();
+          });
+        }
+      };
+
+      setTimeout(() => map.invalidateSize(), 100);
+    }
+
     async function loadMyDonations() {
       const container = document.getElementById('myDonationsList');
       if (!container) return;
@@ -958,15 +1532,19 @@
       container.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div>Loading...</div>';
 
       try {
-        const data = await apiFetch(`${API.getDonations}?donor_id=${currentUser.id}`);
+        const url = currentUser.role === 'admin'
+          ? `${API.getDonations}?limit=100`
+          : `${API.getDonations}?donor_id=${currentUser.id}`;
+        const data = await apiFetch(url);
         const donations = data.donations || [];
+        dashboardDonations = donations;
 
         if (!donations.length) {
           container.innerHTML = `
             <div style="text-align:center;padding:3rem;color:var(--text-muted)">
               <div style="font-size:3rem;margin-bottom:1rem">🍽️</div>
               <h3>No donations yet</h3>
-              <p>Start donating to see your history here.</p>
+              <p>Start donating to see donation history here.</p>
               <a href="/donate" class="btn btn-primary" style="margin-top:1rem;display:inline-flex">Donate Now</a>
             </div>
           `;
@@ -1343,6 +1921,12 @@
       setTimeout(() => { window.location.href = '/'; }, 1000);
     });
 
+    window.ngoApp = {
+      acceptDonation: dashboardAcceptDonation,
+      completeDonation: dashboardCompleteDonation,
+      showDetail: showDashboardDonationDetail
+    };
+
     // Expose for dashboard use
     window.dashboardApp = {
       init,
@@ -1434,3 +2018,264 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 })();
+
+/* ═══════════════════════════════════════════
+   WEBSOCKET REAL-TIME NOTIFICATIONS (Improved)
+═══════════════════════════════════════════ */
+(function initWebSocket() {
+  if (typeof io === 'undefined') {
+    console.warn('⚠️ Socket.IO not loaded');
+    return;
+  }
+
+  const socket = io();
+
+  socket.on('connect', () => {
+    console.log('✅ Real-time connected');
+    if (window._currentUser) {
+      socket.emit('join_notifications', { user_id: window._currentUser.id });
+    }
+  });
+
+  socket.on('notification', (data) => {
+    if (window.showToast) {
+      const typeMap = {
+        pickup_accepted: 'success',
+        new_donation: 'info',
+        completed: 'success',
+        alert: 'warning'
+      };
+      window.showToast('Live Update 🔔', data.message, typeMap[data.type] || 'info', 6000);
+    }
+
+    // Update notification badge
+    const badge = document.getElementById('notifBadge');
+    if (badge) {
+      let count = parseInt(badge.textContent) || 0;
+      badge.textContent = count + 1;
+    }
+  });
+
+  socket.on('donation_update', (data) => {
+    console.log('📦 Real-time donation update:', data);
+
+    // Auto-refresh NGO donations list
+    if (document.body.dataset.page === 'ngo' && window.ngoApp && window.ngoApp.loadDonations) {
+      console.log('🔄 Auto-refreshing donations list...');
+      setTimeout(() => {
+        window.ngoApp.loadDonations();
+      }, 800);
+    }
+
+    // Optional: Show live ticker (if you add #liveTicker element later)
+    const ticker = document.getElementById('liveTicker');
+    if (ticker && data.message) {
+      ticker.style.opacity = '0';
+      setTimeout(() => {
+        ticker.textContent = '🔴 LIVE: ' + data.message;
+        ticker.style.opacity = '1';
+      }, 300);
+    }
+  });
+
+  socket.on('disconnect', () => {
+    console.log('🔌 Real-time disconnected');
+  });
+
+  window._socket = socket;
+})();
+
+
+/* ═══════════════════════════════════════════
+   LEAFLET MAP MODULE
+═══════════════════════════════════════════ */
+window.MapModule = (function () {
+  let map = null;
+  let markers = [];
+
+  const ICONS = {
+    available: { color: '#00ff88', emoji: '🍽️' },
+    accepted:  { color: '#00d4ff', emoji: '🚗' },
+    completed: { color: '#b48eff', emoji: '✅' },
+    ngo:       { color: '#ffd93d', emoji: '🏥' },
+    poultry:   { color: '#ff9f1c', emoji: '🐔' },
+    biogas:    { color: '#ff6b6b', emoji: '♻️' }
+  };
+
+  function makeIcon(type) {
+    const cfg = ICONS[type] || ICONS.available;
+    return L.divIcon({
+      className: '',
+      html: `<div style="
+        background:${cfg.color};
+        width:36px;height:36px;
+        border-radius:50% 50% 50% 0;
+        transform:rotate(-45deg);
+        border:2px solid white;
+        box-shadow:0 2px 8px rgba(0,0,0,0.3);
+        display:flex;align-items:center;justify-content:center;
+      "><span style="transform:rotate(45deg);font-size:14px">${cfg.emoji}</span></div>`,
+      iconSize: [36, 36],
+      iconAnchor: [18, 36],
+      popupAnchor: [0, -36]
+    });
+  }
+
+  function initMap(containerId, centerLat, centerLng, zoom) {
+    if (map) { map.remove(); map = null; }
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Default: India center
+    map = L.map(containerId, { zoomControl: true }).setView(
+      [centerLat || 20.5937, centerLng || 78.9629],
+      zoom || 5
+    );
+
+    // Dark tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 18
+    }).addTo(map);
+
+    return map;
+  }
+
+  function clearMarkers() {
+    markers.forEach(m => m.remove());
+    markers = [];
+  }
+
+  function addDonationMarkers(donations) {
+    if (!map) return;
+    clearMarkers();
+    donations.forEach(d => {
+      if (!d.coordinates || !d.coordinates.lat) return;
+      const marker = L.marker(
+        [d.coordinates.lat, d.coordinates.lng],
+        { icon: makeIcon(d.status) }
+      ).addTo(map);
+
+      marker.bindPopup(`
+        <div style="font-family:sans-serif;min-width:200px">
+          <strong style="font-size:1rem">${d.food_name}</strong><br/>
+          <span style="color:#666;font-size:0.82rem">by ${d.donor_name}</span><br/>
+          <hr style="margin:6px 0;border:none;border-top:1px solid #eee"/>
+          <span>📦 ${d.quantity} ${d.quantity_unit}</span><br/>
+          <span>⏱ ${d.hours_remaining}h remaining</span><br/>
+          <span>🌿 ${d.co2_saved}kg CO₂ saved</span><br/>
+          <span style="
+            display:inline-block;margin-top:6px;padding:2px 8px;
+            border-radius:999px;font-size:0.72rem;font-weight:700;
+            background:${d.urgency === 'critical' ? '#ff6b6b33' : '#00ff8833'};
+            color:${d.urgency === 'critical' ? '#ff6b6b' : '#00ff88'}
+          ">${d.urgency.toUpperCase()}</span>
+        </div>
+      `);
+      markers.push(marker);
+    });
+
+    // Auto-fit bounds
+    if (markers.length > 0) {
+      const group = L.featureGroup(markers);
+      map.fitBounds(group.getBounds().pad(0.2));
+    }
+  }
+
+  function addNGOMarkers(ngos) {
+    if (!map) return;
+    ngos.forEach(n => {
+      if (!n.lat || !n.lng) return;
+      const marker = L.marker([n.lat, n.lng], { icon: makeIcon('ngo') }).addTo(map);
+      marker.bindPopup(`
+        <div style="font-family:sans-serif">
+          <strong>${n.name}</strong><br/>
+          <span style="color:#666;font-size:0.82rem">${n.address}</span><br/>
+          <span>📞 ${n.phone || 'N/A'}</span><br/>
+          <span>Capacity: ${n.capacity_kg}kg/day</span>
+        </div>
+      `);
+      markers.push(marker);
+    });
+  }
+
+  function addBiogasMarkers(plants) {
+    if (!map) return;
+    plants.forEach(p => {
+      if (!p.lat || !p.lng) return;
+      const marker = L.marker([p.lat, p.lng], { icon: makeIcon('biogas') }).addTo(map);
+      marker.bindPopup(`
+        <div style="font-family:sans-serif">
+          <strong>♻️ ${p.name}</strong><br/>
+          <span>${p.address}</span><br/>
+          <span>Capacity: ${p.capacity_kg}kg/day</span>
+        </div>
+      `);
+      markers.push(marker);
+    });
+  }
+
+  function addPoultryMarkers(farms) {
+    if (!map) return;
+    farms.forEach(p => {
+      if (!p.lat || !p.lng) return;
+      const marker = L.marker([p.lat, p.lng], { icon: makeIcon('poultry') }).addTo(map);
+      marker.bindPopup(`
+        <div style="font-family:sans-serif">
+          <strong>🐔 ${p.name}</strong><br/>
+          <span>${p.address}</span><br/>
+          <span>Capacity: ${p.capacity_kg || 'N/A'}kg/day</span>
+        </div>
+      `);
+      markers.push(marker);
+    });
+  }
+
+  // Toggle map visibility
+  function initToggle() {
+    const btn = document.getElementById('toggleMapBtn');
+    const container = document.getElementById('donationMap');
+    if (!btn || !container) return;
+    btn.addEventListener('click', () => {
+      const hidden = container.style.display === 'none';
+      container.style.display = hidden ? 'block' : 'none';
+      btn.textContent = hidden ? 'Hide Map' : 'Show Map';
+      if (hidden && map) map.invalidateSize();
+    });
+  }
+
+  return { initMap, addDonationMarkers, addNGOMarkers, addBiogasMarkers, addPoultryMarkers, initToggle };
+})();
+/* ═══════════════════════════════════════════
+   WASTE HEATMAP
+═══════════════════════════════════════════ */
+async function initWasteHeatmap() {
+  const container = document.getElementById('wasteHeatmap');
+  if (!container || typeof L === 'undefined') return;
+
+  const map = L.map('wasteHeatmap').setView([20.5937, 78.9629], 5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+  try {
+    const data = await fetch('/api/get_donations?limit=100').then(r => r.json());
+    const points = (data.donations || [])
+      .filter(d => d.coordinates?.lat)
+      .map(d => [
+        d.coordinates.lat,
+        d.coordinates.lng,
+        // Intensity based on urgency
+        { critical:1.0, high:0.7, medium:0.4, low:0.2 }[d.urgency] || 0.3
+      ]);
+
+    if (points.length && L.heatLayer) {
+      L.heatLayer(points, {
+        radius: 35,
+        blur: 20,
+        maxZoom: 10,
+        gradient: { 0.2:'#00ff88', 0.5:'#ffd93d', 0.8:'#ff6b6b', 1.0:'#ff0000' }
+      }).addTo(map);
+    }
+  } catch (e) {
+    console.warn('Heatmap error:', e);
+  }
+}

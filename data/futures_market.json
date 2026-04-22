@@ -1,0 +1,1307 @@
+[
+  {
+    "id": "future-2f10cc8e7239",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "vegetable_peels",
+      "food_type": "raw",
+      "freshness_category": "semi_fresh",
+      "route": "poultry",
+      "quantity_kg": 25.6,
+      "base_price_per_kg": 5.5,
+      "confidence": 0.9,
+      "token": "PWX-C4FDB316",
+      "delivery_window": "2026-04-15T15:18"
+    },
+    "matches": [
+      {
+        "poultry_farm": {
+          "id": "poultry-056",
+          "type": "poultry_farm",
+          "name": "New Delhi Poultry Feed Partner",
+          "address": "New Delhi, India",
+          "city": "New Delhi",
+          "state": "",
+          "lat": 28.6489,
+          "lng": 77.244,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 5.18,
+        "score": 67.0,
+        "location_accuracy": "city_partner_seed",
+        "reason": "5.2km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-021",
+          "type": "poultry_farm",
+          "name": "Delhi Poultry Feed Partner",
+          "address": "Delhi, Delhi",
+          "city": "Delhi",
+          "state": "Delhi",
+          "lat": 28.6027,
+          "lng": 77.2785,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 6.9,
+        "score": 63.0,
+        "location_accuracy": "city_partner_seed",
+        "reason": "6.9km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-057",
+          "type": "poultry_farm",
+          "name": "Noida Poultry Feed Partner",
+          "address": "Noida, Uttar Pradesh",
+          "city": "Noida",
+          "state": "Uttar Pradesh",
+          "lat": 28.6056,
+          "lng": 77.3622,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 14.98,
+        "score": 44.3,
+        "location_accuracy": "city_partner_seed",
+        "reason": "15.0km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-029",
+          "type": "poultry_farm",
+          "name": "Gurgaon Poultry Feed Partner",
+          "address": "Gurgaon, Haryana",
+          "city": "Gurgaon",
+          "state": "Haryana",
+          "lat": 28.4945,
+          "lng": 77.0616,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 19.58,
+        "score": 33.6,
+        "location_accuracy": "city_partner_seed",
+        "reason": "19.6km away, 250kg/day capacity, estimated location"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-14T15:18:36.054079"
+  },
+  {
+    "id": "future-3c54d8ca2966",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "cooked_leftovers",
+      "food_type": "cooked",
+      "freshness_category": "edible",
+      "route": "ngo",
+      "quantity_kg": 17.6,
+      "base_price_per_kg": 0,
+      "confidence": 0.88,
+      "token": "PWX-CB614F81",
+      "delivery_window": "2026-04-15T15:18"
+    },
+    "matches": [
+      {
+        "ngo": {
+          "id": "ngo439",
+          "name": "Delhi Central Food Relief Trust",
+          "registration_number": "NGO/DL/2010/11339",
+          "address": "Connaught Place",
+          "area": "CP",
+          "city": "Delhi",
+          "district": "New Delhi",
+          "state": "Delhi",
+          "pincode": "110001",
+          "lat": 28.6139,
+          "lng": 77.209,
+          "phone": "+91-11-5679139",
+          "email": "[contact@dcfrt.org](mailto:contact@dcfrt.org)",
+          "website": "[www.dcfrt.org](http://www.dcfrt.org)",
+          "founded_year": 2010,
+          "capacity_kg": 1800,
+          "meals_per_day": 3500,
+          "operating_hours": "24 hours",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "dairy",
+            "packaged"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 20,
+          "volunteers": 200,
+          "beneficiaries_per_day": 3000,
+          "contact_person": "Rajesh Kumar",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 5.0,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 0.0,
+        "score": 103.0,
+        "location_accuracy": "exact",
+        "reason": "0.0km away, 1800kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo207",
+          "name": "Delhi Hunger Relief Initiative",
+          "registration_number": "NGO/DL/2015/11107",
+          "address": "45, Karol Bagh",
+          "area": "Karol Bagh",
+          "city": "Delhi",
+          "district": "Central Delhi",
+          "state": "Delhi",
+          "pincode": "110005",
+          "lat": 28.6519,
+          "lng": 77.1909,
+          "phone": "+91-011-5678907",
+          "email": "[info@dhri.org](mailto:info@dhri.org)",
+          "website": "[www.dhri.org](http://www.dhri.org)",
+          "founded_year": 2015,
+          "capacity_kg": 1000,
+          "meals_per_day": 2000,
+          "operating_hours": "6AM-10PM",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "packaged",
+            "dairy"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 15,
+          "volunteers": 120,
+          "beneficiaries_per_day": 1800,
+          "contact_person": "Rajesh Malhotra",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.8,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 4.58,
+        "score": 85.3,
+        "location_accuracy": "exact",
+        "reason": "4.6km away, 1000kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo513",
+          "name": "Delhi South Food Relief Network",
+          "registration_number": "NGO/DL/2012/11413",
+          "address": "Lajpat Nagar",
+          "area": "Lajpat Nagar",
+          "city": "Delhi",
+          "district": "South Delhi",
+          "state": "Delhi",
+          "pincode": "110024",
+          "lat": 28.5677,
+          "lng": 77.2436,
+          "phone": "+91-11-5679213",
+          "email": "[contact@dsfrn.org](mailto:contact@dsfrn.org)",
+          "website": "[www.dsfrn.org](http://www.dsfrn.org)",
+          "founded_year": 2012,
+          "capacity_kg": 1800,
+          "meals_per_day": 3400,
+          "operating_hours": "24 hours",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "packaged",
+            "dairy"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 20,
+          "volunteers": 200,
+          "beneficiaries_per_day": 3000,
+          "contact_person": "Rajiv Sharma",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.9,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 6.15,
+        "score": 85.2,
+        "location_accuracy": "exact",
+        "reason": "6.1km away, 1800kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo291",
+          "name": "Delhi Urban Food Rescue Mission",
+          "registration_number": "NGO/DL/2016/11191",
+          "address": "Block A, Lajpat Nagar II",
+          "area": "Lajpat Nagar",
+          "city": "Delhi",
+          "district": "South East Delhi",
+          "state": "Delhi",
+          "pincode": "110024",
+          "lat": 28.5677,
+          "lng": 77.2431,
+          "phone": "+91-11-5678991",
+          "email": "[info@dufrm.org](mailto:info@dufrm.org)",
+          "website": "[www.dufrm.org](http://www.dufrm.org)",
+          "founded_year": 2016,
+          "capacity_kg": 1200,
+          "meals_per_day": 2200,
+          "operating_hours": "6AM-10PM",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "bakery",
+            "dairy",
+            "packaged"
+          ],
+          "specialization": "Migrant workers",
+          "coverage_radius_km": 15,
+          "volunteers": 120,
+          "beneficiaries_per_day": 2000,
+          "contact_person": "Neha Gupta",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.8,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 6.12,
+        "score": 79.3,
+        "location_accuracy": "exact",
+        "reason": "6.1km away, 1200kg/day capacity, exact GPS"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-14T15:18:36.094196"
+  },
+  {
+    "id": "future-8818ef3ea0fc",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "dairy_spoilage_risk",
+      "food_type": "dairy",
+      "freshness_category": "critical",
+      "route": "biogas",
+      "quantity_kg": 7.2,
+      "base_price_per_kg": 4.2,
+      "confidence": 0.9,
+      "token": "PWX-14AD3EE4",
+      "delivery_window": "2026-04-15T15:18"
+    },
+    "matches": [
+      {
+        "biogas_plant": {
+          "id": "bio001",
+          "name": "Delhi Biogas Plant",
+          "address": "Okhla, New Delhi",
+          "lat": 28.5355,
+          "lng": 77.291,
+          "capacity_kg": 1000,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 11.84,
+        "score": 72.9,
+        "location_accuracy": "exact",
+        "reason": "11.8km away, 1000kg/day capacity, exact GPS"
+      },
+      {
+        "biogas_plant": {
+          "id": "bio002",
+          "name": "Pune Green Energy Plant",
+          "address": "Hadapsar, Pune",
+          "lat": 18.5014,
+          "lng": 73.9258,
+          "capacity_kg": 800,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 1173.0,
+        "score": 34.5,
+        "location_accuracy": "exact",
+        "reason": "1173.0km away, 800kg/day capacity, exact GPS"
+      },
+      {
+        "biogas_plant": {
+          "id": "bio003",
+          "name": "Chennai Bio-Energy Hub",
+          "address": "Perungudi, Chennai",
+          "lat": 12.9591,
+          "lng": 80.2449,
+          "capacity_kg": 750,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 1768.86,
+        "score": 34.5,
+        "location_accuracy": "exact",
+        "reason": "1768.9km away, 750kg/day capacity, exact GPS"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-14T15:18:36.132528"
+  },
+  {
+    "id": "future-543194b51a81",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "vegetable_peels",
+      "food_type": "raw",
+      "freshness_category": "semi_fresh",
+      "route": "poultry",
+      "quantity_kg": 25.6,
+      "base_price_per_kg": 5.5,
+      "confidence": 0.9,
+      "token": "PWX-1B4F0C17",
+      "delivery_window": "2026-04-16T08:48"
+    },
+    "matches": [
+      {
+        "poultry_farm": {
+          "id": "poultry-056",
+          "type": "poultry_farm",
+          "name": "New Delhi Poultry Feed Partner",
+          "address": "New Delhi, India",
+          "city": "New Delhi",
+          "state": "",
+          "lat": 28.6489,
+          "lng": 77.244,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 5.18,
+        "score": 67.0,
+        "location_accuracy": "city_partner_seed",
+        "reason": "5.2km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-021",
+          "type": "poultry_farm",
+          "name": "Delhi Poultry Feed Partner",
+          "address": "Delhi, Delhi",
+          "city": "Delhi",
+          "state": "Delhi",
+          "lat": 28.6027,
+          "lng": 77.2785,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 6.9,
+        "score": 63.0,
+        "location_accuracy": "city_partner_seed",
+        "reason": "6.9km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-057",
+          "type": "poultry_farm",
+          "name": "Noida Poultry Feed Partner",
+          "address": "Noida, Uttar Pradesh",
+          "city": "Noida",
+          "state": "Uttar Pradesh",
+          "lat": 28.6056,
+          "lng": 77.3622,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 14.98,
+        "score": 44.3,
+        "location_accuracy": "city_partner_seed",
+        "reason": "15.0km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-029",
+          "type": "poultry_farm",
+          "name": "Gurgaon Poultry Feed Partner",
+          "address": "Gurgaon, Haryana",
+          "city": "Gurgaon",
+          "state": "Haryana",
+          "lat": 28.4945,
+          "lng": 77.0616,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 19.58,
+        "score": 33.6,
+        "location_accuracy": "city_partner_seed",
+        "reason": "19.6km away, 250kg/day capacity, estimated location"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-15T08:48:26.073254"
+  },
+  {
+    "id": "future-2818cb3d26e6",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "cooked_leftovers",
+      "food_type": "cooked",
+      "freshness_category": "edible",
+      "route": "ngo",
+      "quantity_kg": 17.6,
+      "base_price_per_kg": 0,
+      "confidence": 0.88,
+      "token": "PWX-BB198298",
+      "delivery_window": "2026-04-16T08:48"
+    },
+    "matches": [
+      {
+        "ngo": {
+          "id": "ngo439",
+          "name": "Delhi Central Food Relief Trust",
+          "registration_number": "NGO/DL/2010/11339",
+          "address": "Connaught Place",
+          "area": "CP",
+          "city": "Delhi",
+          "district": "New Delhi",
+          "state": "Delhi",
+          "pincode": "110001",
+          "lat": 28.6139,
+          "lng": 77.209,
+          "phone": "+91-11-5679139",
+          "email": "[contact@dcfrt.org](mailto:contact@dcfrt.org)",
+          "website": "[www.dcfrt.org](http://www.dcfrt.org)",
+          "founded_year": 2010,
+          "capacity_kg": 1800,
+          "meals_per_day": 3500,
+          "operating_hours": "24 hours",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "dairy",
+            "packaged"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 20,
+          "volunteers": 200,
+          "beneficiaries_per_day": 3000,
+          "contact_person": "Rajesh Kumar",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 5.0,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 0.0,
+        "score": 103.0,
+        "location_accuracy": "exact",
+        "reason": "0.0km away, 1800kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo207",
+          "name": "Delhi Hunger Relief Initiative",
+          "registration_number": "NGO/DL/2015/11107",
+          "address": "45, Karol Bagh",
+          "area": "Karol Bagh",
+          "city": "Delhi",
+          "district": "Central Delhi",
+          "state": "Delhi",
+          "pincode": "110005",
+          "lat": 28.6519,
+          "lng": 77.1909,
+          "phone": "+91-011-5678907",
+          "email": "[info@dhri.org](mailto:info@dhri.org)",
+          "website": "[www.dhri.org](http://www.dhri.org)",
+          "founded_year": 2015,
+          "capacity_kg": 1000,
+          "meals_per_day": 2000,
+          "operating_hours": "6AM-10PM",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "packaged",
+            "dairy"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 15,
+          "volunteers": 120,
+          "beneficiaries_per_day": 1800,
+          "contact_person": "Rajesh Malhotra",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.8,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 4.58,
+        "score": 85.3,
+        "location_accuracy": "exact",
+        "reason": "4.6km away, 1000kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo513",
+          "name": "Delhi South Food Relief Network",
+          "registration_number": "NGO/DL/2012/11413",
+          "address": "Lajpat Nagar",
+          "area": "Lajpat Nagar",
+          "city": "Delhi",
+          "district": "South Delhi",
+          "state": "Delhi",
+          "pincode": "110024",
+          "lat": 28.5677,
+          "lng": 77.2436,
+          "phone": "+91-11-5679213",
+          "email": "[contact@dsfrn.org](mailto:contact@dsfrn.org)",
+          "website": "[www.dsfrn.org](http://www.dsfrn.org)",
+          "founded_year": 2012,
+          "capacity_kg": 1800,
+          "meals_per_day": 3400,
+          "operating_hours": "24 hours",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "packaged",
+            "dairy"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 20,
+          "volunteers": 200,
+          "beneficiaries_per_day": 3000,
+          "contact_person": "Rajiv Sharma",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.9,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 6.15,
+        "score": 85.2,
+        "location_accuracy": "exact",
+        "reason": "6.1km away, 1800kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo291",
+          "name": "Delhi Urban Food Rescue Mission",
+          "registration_number": "NGO/DL/2016/11191",
+          "address": "Block A, Lajpat Nagar II",
+          "area": "Lajpat Nagar",
+          "city": "Delhi",
+          "district": "South East Delhi",
+          "state": "Delhi",
+          "pincode": "110024",
+          "lat": 28.5677,
+          "lng": 77.2431,
+          "phone": "+91-11-5678991",
+          "email": "[info@dufrm.org](mailto:info@dufrm.org)",
+          "website": "[www.dufrm.org](http://www.dufrm.org)",
+          "founded_year": 2016,
+          "capacity_kg": 1200,
+          "meals_per_day": 2200,
+          "operating_hours": "6AM-10PM",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "bakery",
+            "dairy",
+            "packaged"
+          ],
+          "specialization": "Migrant workers",
+          "coverage_radius_km": 15,
+          "volunteers": 120,
+          "beneficiaries_per_day": 2000,
+          "contact_person": "Neha Gupta",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.8,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 6.12,
+        "score": 79.3,
+        "location_accuracy": "exact",
+        "reason": "6.1km away, 1200kg/day capacity, exact GPS"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-15T08:48:26.113951"
+  },
+  {
+    "id": "future-efab21e8b0db",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "dairy_spoilage_risk",
+      "food_type": "dairy",
+      "freshness_category": "critical",
+      "route": "biogas",
+      "quantity_kg": 7.2,
+      "base_price_per_kg": 4.2,
+      "confidence": 0.9,
+      "token": "PWX-12768699",
+      "delivery_window": "2026-04-16T08:48"
+    },
+    "matches": [
+      {
+        "biogas_plant": {
+          "id": "bio001",
+          "name": "Delhi Biogas Plant",
+          "address": "Okhla, New Delhi",
+          "lat": 28.5355,
+          "lng": 77.291,
+          "capacity_kg": 1000,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 11.84,
+        "score": 72.9,
+        "location_accuracy": "exact",
+        "reason": "11.8km away, 1000kg/day capacity, exact GPS"
+      },
+      {
+        "biogas_plant": {
+          "id": "bio002",
+          "name": "Pune Green Energy Plant",
+          "address": "Hadapsar, Pune",
+          "lat": 18.5014,
+          "lng": 73.9258,
+          "capacity_kg": 800,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 1173.0,
+        "score": 34.5,
+        "location_accuracy": "exact",
+        "reason": "1173.0km away, 800kg/day capacity, exact GPS"
+      },
+      {
+        "biogas_plant": {
+          "id": "bio003",
+          "name": "Chennai Bio-Energy Hub",
+          "address": "Perungudi, Chennai",
+          "lat": 12.9591,
+          "lng": 80.2449,
+          "capacity_kg": 750,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 1768.86,
+        "score": 34.5,
+        "location_accuracy": "exact",
+        "reason": "1768.9km away, 750kg/day capacity, exact GPS"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-15T08:48:26.159532"
+  },
+  {
+    "id": "future-962bbf18f86c",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "vegetable_peels",
+      "food_type": "raw",
+      "freshness_category": "semi_fresh",
+      "route": "poultry",
+      "quantity_kg": 25.6,
+      "base_price_per_kg": 5.5,
+      "confidence": 0.9,
+      "token": "PWX-9B447BB4",
+      "delivery_window": "2026-04-16T08:48"
+    },
+    "matches": [
+      {
+        "poultry_farm": {
+          "id": "poultry-056",
+          "type": "poultry_farm",
+          "name": "New Delhi Poultry Feed Partner",
+          "address": "New Delhi, India",
+          "city": "New Delhi",
+          "state": "",
+          "lat": 28.6489,
+          "lng": 77.244,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 5.18,
+        "score": 67.0,
+        "location_accuracy": "city_partner_seed",
+        "reason": "5.2km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-021",
+          "type": "poultry_farm",
+          "name": "Delhi Poultry Feed Partner",
+          "address": "Delhi, Delhi",
+          "city": "Delhi",
+          "state": "Delhi",
+          "lat": 28.6027,
+          "lng": 77.2785,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 6.9,
+        "score": 63.0,
+        "location_accuracy": "city_partner_seed",
+        "reason": "6.9km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-057",
+          "type": "poultry_farm",
+          "name": "Noida Poultry Feed Partner",
+          "address": "Noida, Uttar Pradesh",
+          "city": "Noida",
+          "state": "Uttar Pradesh",
+          "lat": 28.6056,
+          "lng": 77.3622,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 14.98,
+        "score": 44.3,
+        "location_accuracy": "city_partner_seed",
+        "reason": "15.0km away, 250kg/day capacity, estimated location"
+      },
+      {
+        "poultry_farm": {
+          "id": "poultry-029",
+          "type": "poultry_farm",
+          "name": "Gurgaon Poultry Feed Partner",
+          "address": "Gurgaon, Haryana",
+          "city": "Gurgaon",
+          "state": "Haryana",
+          "lat": 28.4945,
+          "lng": 77.0616,
+          "capacity_kg": 250,
+          "accepts": [
+            "raw",
+            "bakery",
+            "packaged",
+            "other"
+          ],
+          "active": true,
+          "location_accuracy": "city_partner_seed",
+          "source": "generated_seed_partner"
+        },
+        "distance_km": 19.58,
+        "score": 33.6,
+        "location_accuracy": "city_partner_seed",
+        "reason": "19.6km away, 250kg/day capacity, estimated location"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-15T08:48:58.611251"
+  },
+  {
+    "id": "future-d20ff0ded001",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "cooked_leftovers",
+      "food_type": "cooked",
+      "freshness_category": "edible",
+      "route": "ngo",
+      "quantity_kg": 17.6,
+      "base_price_per_kg": 0,
+      "confidence": 0.88,
+      "token": "PWX-ED12379C",
+      "delivery_window": "2026-04-16T08:48"
+    },
+    "matches": [
+      {
+        "ngo": {
+          "id": "ngo439",
+          "name": "Delhi Central Food Relief Trust",
+          "registration_number": "NGO/DL/2010/11339",
+          "address": "Connaught Place",
+          "area": "CP",
+          "city": "Delhi",
+          "district": "New Delhi",
+          "state": "Delhi",
+          "pincode": "110001",
+          "lat": 28.6139,
+          "lng": 77.209,
+          "phone": "+91-11-5679139",
+          "email": "[contact@dcfrt.org](mailto:contact@dcfrt.org)",
+          "website": "[www.dcfrt.org](http://www.dcfrt.org)",
+          "founded_year": 2010,
+          "capacity_kg": 1800,
+          "meals_per_day": 3500,
+          "operating_hours": "24 hours",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "dairy",
+            "packaged"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 20,
+          "volunteers": 200,
+          "beneficiaries_per_day": 3000,
+          "contact_person": "Rajesh Kumar",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 5.0,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 0.0,
+        "score": 103.0,
+        "location_accuracy": "exact",
+        "reason": "0.0km away, 1800kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo207",
+          "name": "Delhi Hunger Relief Initiative",
+          "registration_number": "NGO/DL/2015/11107",
+          "address": "45, Karol Bagh",
+          "area": "Karol Bagh",
+          "city": "Delhi",
+          "district": "Central Delhi",
+          "state": "Delhi",
+          "pincode": "110005",
+          "lat": 28.6519,
+          "lng": 77.1909,
+          "phone": "+91-011-5678907",
+          "email": "[info@dhri.org](mailto:info@dhri.org)",
+          "website": "[www.dhri.org](http://www.dhri.org)",
+          "founded_year": 2015,
+          "capacity_kg": 1000,
+          "meals_per_day": 2000,
+          "operating_hours": "6AM-10PM",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "packaged",
+            "dairy"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 15,
+          "volunteers": 120,
+          "beneficiaries_per_day": 1800,
+          "contact_person": "Rajesh Malhotra",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.8,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 4.58,
+        "score": 85.3,
+        "location_accuracy": "exact",
+        "reason": "4.6km away, 1000kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo513",
+          "name": "Delhi South Food Relief Network",
+          "registration_number": "NGO/DL/2012/11413",
+          "address": "Lajpat Nagar",
+          "area": "Lajpat Nagar",
+          "city": "Delhi",
+          "district": "South Delhi",
+          "state": "Delhi",
+          "pincode": "110024",
+          "lat": 28.5677,
+          "lng": 77.2436,
+          "phone": "+91-11-5679213",
+          "email": "[contact@dsfrn.org](mailto:contact@dsfrn.org)",
+          "website": "[www.dsfrn.org](http://www.dsfrn.org)",
+          "founded_year": 2012,
+          "capacity_kg": 1800,
+          "meals_per_day": 3400,
+          "operating_hours": "24 hours",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "packaged",
+            "dairy"
+          ],
+          "specialization": "Street feeding",
+          "coverage_radius_km": 20,
+          "volunteers": 200,
+          "beneficiaries_per_day": 3000,
+          "contact_person": "Rajiv Sharma",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.9,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 6.15,
+        "score": 85.2,
+        "location_accuracy": "exact",
+        "reason": "6.1km away, 1800kg/day capacity, exact GPS"
+      },
+      {
+        "ngo": {
+          "id": "ngo291",
+          "name": "Delhi Urban Food Rescue Mission",
+          "registration_number": "NGO/DL/2016/11191",
+          "address": "Block A, Lajpat Nagar II",
+          "area": "Lajpat Nagar",
+          "city": "Delhi",
+          "district": "South East Delhi",
+          "state": "Delhi",
+          "pincode": "110024",
+          "lat": 28.5677,
+          "lng": 77.2431,
+          "phone": "+91-11-5678991",
+          "email": "[info@dufrm.org](mailto:info@dufrm.org)",
+          "website": "[www.dufrm.org](http://www.dufrm.org)",
+          "founded_year": 2016,
+          "capacity_kg": 1200,
+          "meals_per_day": 2200,
+          "operating_hours": "6AM-10PM",
+          "active": true,
+          "verified": true,
+          "accepts": [
+            "cooked",
+            "raw",
+            "bakery",
+            "dairy",
+            "packaged"
+          ],
+          "specialization": "Migrant workers",
+          "coverage_radius_km": 15,
+          "volunteers": 120,
+          "beneficiaries_per_day": 2000,
+          "contact_person": "Neha Gupta",
+          "contact_designation": "Coordinator",
+          "has_refrigeration": true,
+          "has_transport": true,
+          "languages": [
+            "Hindi",
+            "English"
+          ],
+          "category": "food_relief",
+          "rating": 4.8,
+          "type": "ngo",
+          "location_accuracy": "exact",
+          "source": "data/ngos_raw.json"
+        },
+        "distance_km": 6.12,
+        "score": 79.3,
+        "location_accuracy": "exact",
+        "reason": "6.1km away, 1200kg/day capacity, exact GPS"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-15T08:48:58.653530"
+  },
+  {
+    "id": "future-5f243a798d3b",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "lat": 28.6139,
+    "lng": 77.209,
+    "menu_plan": "Lunch buffet: veg biryani, dal, salad, paneer curry, roti, carrot prep, curd service",
+    "stream": {
+      "stream_type": "dairy_spoilage_risk",
+      "food_type": "dairy",
+      "freshness_category": "critical",
+      "route": "biogas",
+      "quantity_kg": 7.2,
+      "base_price_per_kg": 4.2,
+      "confidence": 0.9,
+      "token": "PWX-FB9C829E",
+      "delivery_window": "2026-04-16T08:48"
+    },
+    "matches": [
+      {
+        "biogas_plant": {
+          "id": "bio001",
+          "name": "Delhi Biogas Plant",
+          "address": "Okhla, New Delhi",
+          "lat": 28.5355,
+          "lng": 77.291,
+          "capacity_kg": 1000,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 11.84,
+        "score": 72.9,
+        "location_accuracy": "exact",
+        "reason": "11.8km away, 1000kg/day capacity, exact GPS"
+      },
+      {
+        "biogas_plant": {
+          "id": "bio002",
+          "name": "Pune Green Energy Plant",
+          "address": "Hadapsar, Pune",
+          "lat": 18.5014,
+          "lng": 73.9258,
+          "capacity_kg": 800,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 1173.0,
+        "score": 34.5,
+        "location_accuracy": "exact",
+        "reason": "1173.0km away, 800kg/day capacity, exact GPS"
+      },
+      {
+        "biogas_plant": {
+          "id": "bio003",
+          "name": "Chennai Bio-Energy Hub",
+          "address": "Perungudi, Chennai",
+          "lat": 12.9591,
+          "lng": 80.2449,
+          "capacity_kg": 750,
+          "active": true,
+          "type": "biogas_plant",
+          "location_accuracy": "exact",
+          "source": "data/location.json"
+        },
+        "distance_km": 1768.86,
+        "score": 34.5,
+        "location_accuracy": "exact",
+        "reason": "1768.9km away, 750kg/day capacity, exact GPS"
+      }
+    ],
+    "bids": [],
+    "status": "open",
+    "created_at": "2026-04-15T08:48:58.708890"
+  }
+]

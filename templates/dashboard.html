@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard — FoodSave AI</title>
   <link rel="stylesheet" href="/static/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body class="dark-mode" data-page="dashboard">
 
@@ -21,6 +26,7 @@
       <li><a href="/" class="nav-link">Home</a></li>
       <li><a href="/donate" class="nav-link">Donate Food</a></li>
       <li><a href="/ngo" class="nav-link">NGO Portal</a></li>
+      <li><a href="/network" class="nav-link">Network</a></li>
       <li><a href="/dashboard" class="nav-link active">Dashboard</a></li>
     </ul>
     <div class="nav-actions">
@@ -91,35 +97,123 @@
       <!-- ── TAB: OVERVIEW ── -->
       <div class="dash-tab active" id="tab-overview">
         <div class="dash-section-header">
-          <h2>Welcome back, <span id="dashWelcomeName">User</span>! 👋</h2>
-          <p id="dashWelcomeSub">Here's your impact at a glance.</p>
+          <div>
+            <h2>Operations Dashboard</h2>
+            <p id="dashWelcomeSub" style="color:var(--text-secondary);font-size:0.88rem;margin-top:0.25rem">
+              System monitoring · AI predictions · Routing analytics
+            </p>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center">
+            <div id="systemStatus" style="
+              display:flex;align-items:center;gap:0.5rem;
+              padding:0.4rem 0.9rem;border-radius:999px;
+              background:rgba(0,255,136,0.08);
+              border:1px solid rgba(0,255,136,0.2);
+              font-size:0.78rem;font-weight:700;color:var(--accent-green)
+            ">
+              <div style="width:7px;height:7px;border-radius:50%;background:var(--accent-green);animation:pulse 2s infinite"></div>
+              System Online
+            </div>
+          </div>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="dash-stats-grid">
+        <!-- ── Stats Grid ── -->
+        <div class="dash-stats-grid" style="margin-bottom:2rem">
           <div class="dash-stat-card">
-            <div class="dsc-icon">🍽️</div>
+            <div class="dsc-icon">📦</div>
             <div class="dsc-value" id="statMeals">—</div>
-            <div class="dsc-label">Meals Donated</div>
-            <div class="dsc-trend up">↑ 12% this month</div>
+            <div class="dsc-label">Total Donations</div>
+            <div class="dsc-trend up" id="statMealsSub">from database</div>
+          </div>
+          <div class="dash-stat-card">
+            <div class="dsc-icon">🤖</div>
+            <div class="dsc-value" id="statConfDash">—</div>
+            <div class="dsc-label">Avg AI Confidence</div>
+            <div class="dsc-trend neutral">from prediction logs</div>
           </div>
           <div class="dash-stat-card">
             <div class="dsc-icon">🌿</div>
             <div class="dsc-value" id="statCO2">—</div>
-            <div class="dsc-label">kg CO₂ Saved</div>
-            <div class="dsc-trend up">↑ 8% this month</div>
+            <div class="dsc-label">kg CO₂ Avoided</div>
+            <div class="dsc-trend up">FAO emission factor</div>
           </div>
           <div class="dash-stat-card">
             <div class="dsc-icon">⭐</div>
             <div class="dsc-value" id="statPoints">—</div>
-            <div class="dsc-label">Total Points</div>
-            <div class="dsc-trend up">↑ 50 this week</div>
+            <div class="dsc-label">Your Points</div>
+            <div class="dsc-trend neutral" id="statRank">checking rank...</div>
           </div>
-          <div class="dash-stat-card">
-            <div class="dsc-icon">🏅</div>
-            <div class="dsc-value" id="statRank">—</div>
-            <div class="dsc-label">Platform Rank</div>
-            <div class="dsc-trend neutral">Top 15%</div>
+        </div>
+
+        <!-- ── Two Column Layout ── -->
+        <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
+          <!-- AI Predictions Table -->
+          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:1.5rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+              <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:700">📡 Recent AI Predictions</h3>
+              <span style="font-size:0.72rem;color:var(--text-muted);font-family:monospace" id="predCount">0 total</span>
+            </div>
+            <div style="overflow-x:auto">
+              <table style="width:100%;border-collapse:collapse;font-size:0.8rem" id="predTable">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--border-color)">
+                    <th style="text-align:left;padding:0.5rem 0.75rem;color:var(--text-muted);font-weight:600;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em">Time</th>
+                    <th style="text-align:left;padding:0.5rem 0.75rem;color:var(--text-muted);font-weight:600;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em">Food</th>
+                    <th style="text-align:left;padding:0.5rem 0.75rem;color:var(--text-muted);font-weight:600;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em">Class</th>
+                    <th style="text-align:left;padding:0.5rem 0.75rem;color:var(--text-muted);font-weight:600;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em">Conf.</th>
+                    <th style="text-align:left;padding:0.5rem 0.75rem;color:var(--text-muted);font-weight:600;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em">Route</th>
+                  </tr>
+                </thead>
+                <tbody id="predTableBody">
+                  <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.82rem">Loading predictions...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Model Performance Panel -->
+          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:1.5rem">
+            <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:1rem">🧠 Model Performance</h3>
+            <div id="modelPerfPanel">
+              <div class="loading-state"><div class="loading-spinner"></div>Loading...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Live Map ── -->
+        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+            <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:700">🗺️ Live Donation Map — India</h3>
+            <div style="display:flex;gap:0.5rem">
+              <button class="filter-btn active" data-mapfilter="all" onclick="window.dashboardMap?.filterMarkers('all')">All</button>
+              <button class="filter-btn" data-mapfilter="available" onclick="window.dashboardMap?.filterMarkers('available')">Available</button>
+              <button class="filter-btn" data-mapfilter="accepted" onclick="window.dashboardMap?.filterMarkers('accepted')">In Transit</button>
+            </div>
+          </div>
+          <div id="dashboardMap" style="height:380px;border-radius:12px;overflow:hidden;border:1px solid var(--border-color)"></div>
+          <div style="display:flex;gap:1rem;margin-top:0.75rem;font-size:0.72rem;color:var(--text-muted)">
+            <span>🟢 Fresh → NGO</span>
+            <span>🟡 Semi-Fresh → Poultry</span>
+            <span>🔴 Rotten → Biogas</span>
+            <span>🔵 Your Location</span>
+          </div>
+        </div>
+
+        <!-- ── Routing Analytics + User Impact ── -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+          <!-- Routing Analytics -->
+          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:1.5rem">
+            <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:1rem">🚚 Routing Analytics</h3>
+            <div id="routingAnalytics">
+              <div class="loading-state"><div class="loading-spinner"></div>Loading...</div>
+            </div>
+          </div>
+          <!-- Platform Stats -->
+          <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:1.5rem">
+            <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:1rem">📊 Platform Statistics</h3>
+            <div id="platStatsPanel">
+              <div class="loading-state"><div class="loading-spinner"></div>Loading...</div>
+            </div>
           </div>
         </div>
 
@@ -281,15 +375,10 @@
 
   <div id="toastContainer" class="toast-container"></div>
 
+  <!-- 🔥 SOCKET.IO FOR REAL-TIME NOTIFICATIONS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
+
   <script src="/static/js/main.js"></script>
   <script src="/static/js/animations.js"></script>
-  <script>
-    // Initialize dashboard on load
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.dashboardApp) {
-        window.dashboardApp.init();
-      }
-    });
-  </script>
 </body>
 </html>

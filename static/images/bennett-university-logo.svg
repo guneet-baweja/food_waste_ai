@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1527 510" role="img" aria-label="Bennett University Times of India Group">
+  <g transform="translate(0 0)">
+    <path d="M194 0C123 0 58 12 25 26 4 84-4 142 3 190c10 73 47 135 97 188 31 33 65 59 94 78 29-19 63-45 94-78 50-53 87-115 97-188 7-48-1-106-22-164C330 12 265 0 194 0Z" fill="#e31837"/>
+    <path d="M194 0c71 0 136 12 169 26 21 58 29 116 22 164-10 73-47 135-97 188-31 33-65 59-94 78Z" fill="#b20d3a" opacity=".55"/>
+    <path d="M0 185c24 5 45-3 57-18 14-18 39-11 67-4 22 6 47 9 70-4 23 13 48 10 70 4 28-7 53-14 67 4 12 15 33 23 57 18-6 59-35 112-76 158-33 37-75 70-118 96-43-26-85-59-118-96C35 297 6 244 0 185Z" fill="#ffffff"/>
+    <path d="M92 68c28 0 47 28 47 70 0 29-11 55-31 72l-19 15 105-61 105 61-19-15c-20-17-31-43-31-72 0-42 19-70 47-70 22 0 38 16 43 43h34c-3-48-35-82-77-82-43 0-75 35-75 93 0 29 8 54 24 75l-51-30-51 30c16-21 24-46 24-75 0-58-32-93-75-93-42 0-74 34-77 82h34c5-27 21-43 43-43Z" fill="#ffffff"/>
+    <path d="M0 213c24 102 91 180 194 243 103-63 170-141 194-243v42C362 357 296 434 194 510 92 434 26 357 0 255Z" fill="#00a7df"/>
+    <path d="M0 213c24 102 91 180 194 243v54C92 434 26 357 0 255Z" fill="#0055b8"/>
+    <path d="M194 165c62 32 109 77 112 146 2 45-21 83-49 113-22 23-46 42-63 54-17-12-41-31-63-54-28-30-51-68-49-113 3-69 50-114 112-146Z" fill="#e31837" opacity=".94"/>
+    <path d="M194 165c62 32 109 77 112 146 2 45-21 83-49 113-22 23-46 42-63 54Z" fill="#b20d3a" opacity=".5"/>
+  </g>
+  <g transform="translate(450 68)" fill="#06499d">
+    <text x="0" y="145" font-family="Georgia, 'Times New Roman', serif" font-size="150" font-weight="700" letter-spacing="18">BENNETT</text>
+    <text x="4" y="250" font-family="Georgia, 'Times New Roman', serif" font-size="104" font-weight="600" letter-spacing="25">UNIVERSITY</text>
+    <rect x="3" y="286" width="1072" height="9" fill="#06499d"/>
+    <text x="4" y="360" font-family="Georgia, 'Times New Roman', serif" font-size="80" font-weight="600" letter-spacing="8" fill="#b01834">TIMES OF INDIA GROUP</text>
+  </g>
+</svg>

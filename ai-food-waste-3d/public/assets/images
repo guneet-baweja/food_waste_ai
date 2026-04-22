@@ -1,0 +1,15 @@
+This directory is intended for image assets used throughout the project. You can place your image files here, such as:
+
+- ai-brain.png
+- ai-dashboard-card.png
+- ai-prediction.png
+- co2-impact.png
+- heatmap.png
+- hero-globe.png
+- hero-india.png
+- mobile-screens.png
+- smart-city.png
+- ui-panels.png
+- volunteer.png
+
+Make sure to organize your images appropriately for easy access in your application.

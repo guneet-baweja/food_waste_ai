@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  foodsave-ai:
+    build: .
+    container_name: foodsave-ai
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./static/uploads:/app/static/uploads
+      - ./ai/models:/app/ai/models
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=change_this_to_random_secret_in_production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/stats"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s

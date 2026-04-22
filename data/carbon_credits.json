@@ -1,0 +1,47 @@
+[
+  {
+    "id": "gcnc-06d3e708f3f8",
+    "donation_id": "manual-a5769a2254",
+    "route_type": "poultry",
+    "food_type": "raw",
+    "quantity_kg": 55.0,
+    "distance_km": 4.5,
+    "kg_co2e": 88.487,
+    "credit_value_inr": 247.76,
+    "platform_fee_inr": 49.55,
+    "status": "verified",
+    "buyer_name": "Bennett Local Offset Pool",
+    "formula": "(landfill - routed - transport) * urgency_factor * locality_factor",
+    "created_at": "2026-04-14T15:18:38.681953"
+  },
+  {
+    "id": "gcnc-1e750cd4ebca",
+    "donation_id": "5cbfcea5-2bef-4ae6-b9e5-3bf12f546c4f",
+    "route_type": "ngo",
+    "food_type": "cooked",
+    "quantity_kg": 1.0,
+    "distance_km": 26.23,
+    "kg_co2e": 0,
+    "credit_value_inr": 0.0,
+    "platform_fee_inr": 0.0,
+    "status": "provisional",
+    "buyer_name": "",
+    "formula": "(landfill - routed - transport) * urgency_factor * locality_factor",
+    "created_at": "2026-04-15T03:47:28.523307"
+  },
+  {
+    "id": "gcnc-dc9b43419b74",
+    "donation_id": "2464c6fb-5b95-42fb-bb83-821fe586b9a2",
+    "route_type": "ngo",
+    "food_type": "cooked",
+    "quantity_kg": 1.0,
+    "distance_km": 26.23,
+    "kg_co2e": 0,
+    "credit_value_inr": 0.0,
+    "platform_fee_inr": 0.0,
+    "status": "provisional",
+    "buyer_name": "",
+    "formula": "(landfill - routed - transport) * urgency_factor * locality_factor",
+    "created_at": "2026-04-15T03:47:28.682658"
+  }
+]

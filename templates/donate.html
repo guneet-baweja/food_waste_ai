@@ -19,6 +19,7 @@
       <li><a href="/" class="nav-link">Home</a></li>
       <li><a href="/donate" class="nav-link active">Donate Food</a></li>
       <li><a href="/ngo" class="nav-link">NGO Portal</a></li>
+      <li><a href="/network" class="nav-link">Network</a></li>
       <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
     </ul>
     <div class="nav-actions">
@@ -100,6 +101,16 @@
             <div class="form-hint">When will this food expire or become unsafe to eat?</div>
           </div>
 
+          <div class="form-group">
+            <label for="predictionMode">Prediction Mode</label>
+            <select id="predictionMode" name="prediction_mode" class="form-input form-select">
+              <option value="hybrid" selected>Hybrid: expiry + trained model</option>
+              <option value="trained_model">Trained model only</option>
+              <option value="expiry">Expiry time only</option>
+            </select>
+            <div class="form-hint">Hybrid uses your expiry time and, when available, the trained image model from your 200-epoch pipeline.</div>
+          </div>
+
           <!-- Location -->
           <div class="form-group">
             <label for="location">Pickup Location *</label>
@@ -108,18 +119,86 @@
                 placeholder="Enter full address for pickup" required />
               <button type="button" class="location-detect-btn" id="detectLocation" title="Detect my location">📍</button>
             </div>
-            <input type="hidden" id="latHidden" name="lat" value="40.7128" />
-            <input type="hidden" id="lngHidden" name="lng" value="-74.0060" />
+            <input type="hidden" id="latHidden" name="lat" value="" />
+            <input type="hidden" id="lngHidden" name="lng" value="" />
           </div>
 
           <!-- Description -->
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea id="description" name="description" class="form-input form-textarea"
-              placeholder="Any additional details about the food (e.g. allergies, preparation method, quantity details)..."
-              rows="3"></textarea>
-          </div>
+        <!-- EVENT DONATION TOGGLE -->
+<div class="form-group">
+  <label style="display:flex;align-items:center;gap:0.75rem;cursor:pointer">
+    <input type="checkbox" id="isEventDonation" name="is_event"
+      style="width:18px;height:18px;accent-color:var(--accent-green)" />
+    <span>🎉 This is an Event / Wedding / Party Donation</span>
+  </label>
+</div>
 
+<!-- EVENT FIELDS (hidden by default) -->
+<div id="eventFields" style="display:none;
+  background:rgba(0,255,136,0.04);
+  border:1px solid rgba(0,255,136,0.2);
+  border-radius:16px;
+  padding:1.5rem;
+  margin-top:0.5rem">
+
+  <h4 style="font-family:var(--font-display);font-size:1rem;
+    font-weight:700;margin-bottom:1rem;color:var(--accent-green)">
+    🎊 Event Details
+  </h4>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="eventType">Event Type</label>
+      <select id="eventType" name="event_type" class="form-input form-select">
+        <option value="wedding">💒 Wedding</option>
+        <option value="birthday">🎂 Birthday Party</option>
+        <option value="corporate">🏢 Corporate Event</option>
+        <option value="religious">🙏 Religious Function</option>
+        <option value="college">🎓 College Fest</option>
+        <option value="other">🎪 Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="guestCount">Estimated Guests</label>
+      <input type="number" id="guestCount" name="guest_count"
+        class="form-input" placeholder="e.g. 200" min="1" />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="eventDate">Event Date & Time</label>
+      <input type="datetime-local" id="eventDate" name="event_date"
+        class="form-input" />
+    </div>
+    <div class="form-group">
+      <label for="pickupWindow">Pickup Window (hours after event)</label>
+      <select id="pickupWindow" name="pickup_window" class="form-input form-select">
+        <option value="1">Within 1 hour</option>
+        <option value="2">Within 2 hours</option>
+        <option value="3">Within 3 hours</option>
+        <option value="6">Within 6 hours</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="eventVenue">Venue / Banquet Hall Name</label>
+    <input type="text" id="eventVenue" name="event_venue"
+      class="form-input" placeholder="e.g. Raj Palace Banquet, Mumbai" />
+  </div>
+</div>
+<script>
+  document.getElementById('isEventDonation')?.addEventListener('change', function() {
+    const fields = document.getElementById('eventFields');
+    fields.style.display = this.checked ? 'block' : 'none';
+    // Pre-fill quantity hint for events
+    if (this.checked) {
+      document.getElementById('quantity').placeholder = 'e.g. 50 (for ~200 guests)';
+      document.getElementById('quantity').value = '';
+    }
+  });
+</script>
           <!-- Image Upload -->
           <div class="form-group">
             <label>Food Photo (AI will analyze freshness)</label>
@@ -144,17 +223,15 @@
               <span>AI Freshness Prediction</span>
               <span class="ai-pred-live">LIVE</span>
             </div>
-            <div class="ai-pred-body">
-              <div class="freshness-meter">
-                <div class="freshness-label">Freshness Score</div>
-                <div class="freshness-bar">
-                  <div class="freshness-fill" id="freshnessFill"></div>
-                </div>
-                <div class="freshness-num" id="freshnessScore">—</div>
-              </div>
-              <div class="urgency-badge" id="urgencyBadge">—</div>
-              <div class="hours-left" id="hoursLeft">— hours remaining</div>
+            <div class="ai-pred-body" id="aiPredictionBody"></div>
+          </div>
+
+          <div class="match-results-card" id="matchResults" style="display:none">
+            <div class="match-hero-line">
+              <span>Live Pickup Match</span>
+              <strong id="matchRoute">Nearby NGOs</strong>
             </div>
+            <div id="matchResultsList" class="match-results-list"></div>
           </div>
 
           <button type="submit" class="btn btn-primary btn-lg btn-full" id="submitDonation">
@@ -208,6 +285,9 @@
   </div>
 
   <div id="toastContainer" class="toast-container"></div>
+
+  <!-- 🔥 SOCKET.IO FOR REAL-TIME NOTIFICATIONS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
 
   <script src="/static/js/main.js"></script>
   <script src="/static/js/animations.js"></script>

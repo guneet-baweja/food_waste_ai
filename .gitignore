@@ -1,0 +1,16 @@
+.vercel
+.DS_Store
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Large local training artifacts and datasets
+ai/dataset/
+ai/dataset_raw/
+ai/models/
+data/raw/
+static/uploads/
+*.zip
+*.pth

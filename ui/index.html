@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodSave AI — Smart Food Waste Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ui-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            pointer-events: auto;
+            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00ff88;
+            text-shadow: 0 0 20px #00ff88;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+        .btn-upload {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #000;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            pointer-events: auto;
+        }
+
+        .btn-upload:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #00ff88;
+        }
+
+        .hero-section {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .title {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #00d4ff;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .stats-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 350px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ff88;
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+            pointer-events: auto;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #00ff8833;
+            font-size: 14px;
+        }
+
+        .stat-label {
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            color: #00ff88;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .prediction-panel {
+            position: fixed;
+            top: 100px;
+            left: 30px;
+            width: 350px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00d4ff;
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+            pointer-events: auto;
+            display: none;
+        }
+
+        .prediction-panel.active {
+            display: block;
+        }
+
+        .prediction-title {
+            font-size: 18px;
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .freshness-badge {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .freshness-fresh {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: 1px solid #00ff88;
+        }
+
+        .freshness-semi_fresh {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+            border: 1px solid #ffa500;
+        }
+
+        .freshness-rotten {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            width: 0%;
+            transition: width 0.8s ease-out;
+        }
+
+        .action-text {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .upload-area {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            pointer-events: auto;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .upload-area.active {
+            display: flex;
+        }
+
+        .upload-box {
+            width: 400px;
+            height: 400px;
+            border: 3px dashed #00ff88;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .upload-box:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 80px;
+        }
+
+        .upload-text {
+            font-size: 24px;
+            color: #00ff88;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .routing-visualization {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ffa500;
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            box-shadow: 0 0 30px rgba(255, 165, 0, 0.2);
+            pointer-events: auto;
+            display: none;
+        }
+
+        .routing-visualization.active {
+            display: block;
+        }
+
+        .route-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 3px solid #ffa500;
+            border-radius: 5px;
+            font-size: 13px;
+            color: #ffa500;
+        }
+
+        .route-distance {
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 255, 136, 0.2);
+            border-top: 4px solid #00ff88;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 48px;
+            }
+            
+            .subtitle {
+                font-size: 18px;
+            }
+            
+            .stats-panel,
+            .prediction-panel,
+            .routing-visualization {
+                width: 90vw;
+                left: 5vw;
+                bottom: auto;
+                right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ui-overlay">
+        <div class="navbar">
+            <div class="logo">🍔 FoodSave AI</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#api">API</a>
+                <button class="btn-upload" onclick="openUploadArea()">📸 PREDICT</button>
+            </div>
+        </div>
+
+        <div class="hero-section">
+            <div class="title">FoodSave AI</div>
+            <div class="subtitle">Intelligent Food Waste Management System</div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Models Active</span>
+                <span class="stat-value">4</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Processing</span>
+                <span class="stat-value" id="stat-processing">Ready</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Predictions Made</span>
+                <span class="stat-value" id="stat-predictions">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">API Status</span>
+                <span class="stat-value" id="api-status">●</span>
+            </div>
+        </div>
+
+        <div class="prediction-panel" id="predictionPanel">
+            <div class="prediction-title">🔍 Prediction Result</div>
+            <div class="freshness-badge" id="freshnessBadge"></div>
+            <div style="margin-bottom: 10px;">
+                <div style="font-size: 12px; color: #aaa; margin-bottom: 5px;">CONFIDENCE</div>
+                <div class="confidence-bar">
+                    <div class="confidence-fill" id="confidenceFill"></div>
+                </div>
+            </div>
+            <div class="action-text" id="actionText"></div>
+        </div>
+
+        <div class="routing-visualization" id="routingPanel">
+            <div style="color: #ffa500; font-weight: 600; margin-bottom: 15px;">🗺️ ROUTING</div>
+            <div id="routeDetails"></div>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFileSelect(event)">
+            <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📷</div>
+                <div class="upload-text">Click to upload or drag image</div>
+            </div>
+            <div class="loading-spinner" id="spinner" style="display: none;"></div>
+            <div id="uploadStatus" style="color: #00d4ff; font-size: 16px;"></div>
+        </div>
+    </div>
+
+    <!-- Three.js Scene -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="js/scene.js"></script>
+</body>
+</html>

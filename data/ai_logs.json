@@ -1,0 +1,118 @@
+[
+  {
+    "id": "e183898d",
+    "timestamp": "2026-04-13T15:05:00.089466",
+    "food_name": "apple",
+    "food_type": "raw",
+    "predicted_class": "critical",
+    "freshness_score": 14,
+    "confidence": null,
+    "hours_remaining": 0.5,
+    "recommended_route": "NGO",
+    "donor_id": "u003",
+    "location": "Noida"
+  },
+  {
+    "id": "87f413db",
+    "timestamp": "2026-04-13T15:11:13.595100",
+    "food_name": "cooked veggi",
+    "food_type": "cooked",
+    "predicted_class": "critical",
+    "freshness_score": 16,
+    "confidence": null,
+    "hours_remaining": 0.5,
+    "recommended_route": "NGO",
+    "donor_id": "u003",
+    "location": "greater noida"
+  },
+  {
+    "id": "future-2f10cc8e7239",
+    "status": "predicted",
+    "food_name": "vegetable_peels",
+    "predicted_class": "semi_fresh",
+    "confidence": 0.9,
+    "recommended_route": "poultry",
+    "location": "Gulati",
+    "timestamp": "2026-04-14T15:18:36.133357"
+  },
+  {
+    "id": "future-3c54d8ca2966",
+    "status": "predicted",
+    "food_name": "cooked_leftovers",
+    "predicted_class": "edible",
+    "confidence": 0.88,
+    "recommended_route": "ngo",
+    "location": "Gulati",
+    "timestamp": "2026-04-14T15:18:36.133360"
+  },
+  {
+    "id": "future-8818ef3ea0fc",
+    "status": "predicted",
+    "food_name": "dairy_spoilage_risk",
+    "predicted_class": "critical",
+    "confidence": 0.9,
+    "recommended_route": "biogas",
+    "location": "Gulati",
+    "timestamp": "2026-04-14T15:18:36.133361"
+  },
+  {
+    "id": "future-543194b51a81",
+    "status": "predicted",
+    "food_name": "vegetable_peels",
+    "predicted_class": "semi_fresh",
+    "confidence": 0.9,
+    "recommended_route": "poultry",
+    "location": "Gulati",
+    "timestamp": "2026-04-15T08:48:26.161442"
+  },
+  {
+    "id": "future-2818cb3d26e6",
+    "status": "predicted",
+    "food_name": "cooked_leftovers",
+    "predicted_class": "edible",
+    "confidence": 0.88,
+    "recommended_route": "ngo",
+    "location": "Gulati",
+    "timestamp": "2026-04-15T08:48:26.161446"
+  },
+  {
+    "id": "future-efab21e8b0db",
+    "status": "predicted",
+    "food_name": "dairy_spoilage_risk",
+    "predicted_class": "critical",
+    "confidence": 0.9,
+    "recommended_route": "biogas",
+    "location": "Gulati",
+    "timestamp": "2026-04-15T08:48:26.161447"
+  },
+  {
+    "id": "future-962bbf18f86c",
+    "status": "predicted",
+    "food_name": "vegetable_peels",
+    "predicted_class": "semi_fresh",
+    "confidence": 0.9,
+    "recommended_route": "poultry",
+    "location": "Gulati",
+    "timestamp": "2026-04-15T08:48:58.710151"
+  },
+  {
+    "id": "future-d20ff0ded001",
+    "status": "predicted",
+    "food_name": "cooked_leftovers",
+    "predicted_class": "edible",
+    "confidence": 0.88,
+    "recommended_route": "ngo",
+    "location": "Gulati",
+    "timestamp": "2026-04-15T08:48:58.710154"
+  },
+  {
+    "id": "future-5f243a798d3b",
+    "status": "predicted",
+    "food_name": "dairy_spoilage_risk",
+    "predicted_class": "critical",
+    "confidence": 0.9,
+    "recommended_route": "biogas",
+    "location": "Gulati",
+    "timestamp": "2026-04-15T08:48:58.710155"
+  }
+]

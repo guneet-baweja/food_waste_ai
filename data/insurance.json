@@ -1,0 +1,23 @@
+[
+  {
+    "id": "fiaas-da0dbfe9b742",
+    "restaurant_id": "",
+    "restaurant_name": "Gulati",
+    "supplier_name": "North India Fresh Supply",
+    "food_item": "Tomatoes and leafy greens",
+    "food_type": "raw",
+    "quantity_kg": 42.0,
+    "insured_value_inr": 6200.0,
+    "predicted_fresh_hours": 36.0,
+    "freshness_score": 89,
+    "urgency": "low",
+    "confidence": 0.87,
+    "premium_rate": 0.024,
+    "premium_inr": 148.87,
+    "buffer_fund_inr": 52.1,
+    "settlement_rule": "Supplier pays early spoilage penalty; restaurant pays freshness bonus if the batch outlives the guaranteed window.",
+    "status": "active",
+    "created_at": "2026-04-14T15:18:30.851547",
+    "created_by": "u001"
+  }
+]

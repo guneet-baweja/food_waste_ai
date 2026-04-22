@@ -65,5 +65,326 @@
     "read": false,
     "donation_id": "63c201f6-b45f-49e8-adce-be9f6045f333",
     "timestamp": "2026-03-02T09:09:49.270531"
+  },
+  {
+    "id": "bb8c20b3-9ffc-4e95-8bb2-09e2c4d5362b",
+    "user_id": "u002",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-03-17T19:27:45.419203"
+  },
+  {
+    "id": "25c8d8b3-0662-4c41-bc63-035a0c90c786",
+    "user_id": "u003",
+    "message": "\ud83c\udd98 New CRITICAL donation: apple at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "6e91607e-3c98-4ce8-b1b8-586487796225",
+    "timestamp": "2026-03-17T19:27:45.420324"
+  },
+  {
+    "id": "fd780ba0-9213-4a0d-80dc-51239ca26453",
+    "user_id": "u004",
+    "message": "\ud83c\udd98 New CRITICAL donation: apple at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "6e91607e-3c98-4ce8-b1b8-586487796225",
+    "timestamp": "2026-03-17T19:27:45.420345"
+  },
+  {
+    "id": "04625886-25ac-44ec-9533-e7753ce81375",
+    "user_id": "u002",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-03-17T22:38:09.001853"
+  },
+  {
+    "id": "c5a02785-fef5-4be4-a39b-30e6099f09e7",
+    "user_id": "u003",
+    "message": "\ud83c\udd98 New CRITICAL donation: mixed vegetables at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "03dbb5a9-bec0-4a0e-9cdf-8f84ba831eac",
+    "timestamp": "2026-03-17T22:38:09.003564"
+  },
+  {
+    "id": "2dbddb57-e817-436a-ae88-9e254ea83f02",
+    "user_id": "u004",
+    "message": "\ud83c\udd98 New CRITICAL donation: mixed vegetables at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "03dbb5a9-bec0-4a0e-9cdf-8f84ba831eac",
+    "timestamp": "2026-03-17T22:38:09.003596"
+  },
+  {
+    "id": "03f5cd70-af4a-4dc1-ad4c-c8516550367d",
+    "user_id": "5fe7f81f-b80c-48a4-9414-5f04fbee1e64",
+    "message": "\ud83c\udf89 Welcome Bennett University! You've joined the Food Waste movement. +50 bonus points!",
+    "type": "welcome",
+    "read": false,
+    "timestamp": "2026-04-11T01:28:33.433334"
+  },
+  {
+    "id": "402c0b13-69fc-4c19-86fe-0aa570087da9",
+    "user_id": "u002",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-11T01:33:20.148761"
+  },
+  {
+    "id": "3272c4e6-736d-43e2-ad06-aac2799e0b0d",
+    "user_id": "u003",
+    "message": "\ud83c\udd98 New CRITICAL donation: CAPSICUM at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "f61dea58-0adc-46cc-a2e4-d98d9140675c",
+    "timestamp": "2026-04-11T01:33:20.149123"
+  },
+  {
+    "id": "3177f8e1-be3f-4aa6-a104-00b25b6ebe4b",
+    "user_id": "u004",
+    "message": "\ud83c\udd98 New CRITICAL donation: CAPSICUM at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "f61dea58-0adc-46cc-a2e4-d98d9140675c",
+    "timestamp": "2026-04-11T01:33:20.149132"
+  },
+  {
+    "id": "87ba168e-7bef-4e40-9719-55171bce4fba",
+    "user_id": "u003",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-13T15:05:00.092997"
+  },
+  {
+    "id": "88fcf516-ffad-4d8e-af85-21700c0290b3",
+    "user_id": "u003",
+    "message": "\ud83c\udd98 New CRITICAL donation: apple at Noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "155d6380-0c35-4727-9ec1-f8e12da23a78",
+    "timestamp": "2026-04-13T15:05:00.094031"
+  },
+  {
+    "id": "4366d923-2f25-4ed9-ab44-7d4886d2d32f",
+    "user_id": "u004",
+    "message": "\ud83c\udd98 New CRITICAL donation: apple at Noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "155d6380-0c35-4727-9ec1-f8e12da23a78",
+    "timestamp": "2026-04-13T15:05:00.094062"
+  },
+  {
+    "id": "22ebc0fd-80f5-4534-b9c8-599b0a7766a3",
+    "user_id": "u003",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-13T15:11:13.596347"
+  },
+  {
+    "id": "99f57b24-0089-46ee-8a0c-f3e35891b553",
+    "user_id": "u003",
+    "message": "\ud83c\udd98 New CRITICAL donation: cooked veggi at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "c6843de9-9b2d-4de3-b6ce-fdf0ecbde28f",
+    "timestamp": "2026-04-13T15:11:13.596666"
+  },
+  {
+    "id": "9f31e379-1ddf-483d-b338-91d5d6afa134",
+    "user_id": "u004",
+    "message": "\ud83c\udd98 New CRITICAL donation: cooked veggi at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "c6843de9-9b2d-4de3-b6ce-fdf0ecbde28f",
+    "timestamp": "2026-04-13T15:11:13.596673"
+  },
+  {
+    "id": "e05775aa-ded8-4867-928a-4dd0203b5b52",
+    "user_id": "14f4a317-3b0b-48ce-8405-0dde97db46f0",
+    "message": "\u2705 Hope NGO has accepted your donation 'mixed vegetables' for pickup!",
+    "type": "pickup_accepted",
+    "read": false,
+    "donation_id": "63c201f6-b45f-49e8-adce-be9f6045f333",
+    "timestamp": "2026-04-13T16:20:46.749739"
+  },
+  {
+    "id": "8c8fd4dc-2097-4563-9f08-8b7036ce444b",
+    "user_id": "u002",
+    "message": "\u2705 Hope NGO has accepted your donation 'apple' for pickup!",
+    "type": "pickup_accepted",
+    "read": false,
+    "donation_id": "6e91607e-3c98-4ce8-b1b8-586487796225",
+    "timestamp": "2026-04-13T16:20:56.482224"
+  },
+  {
+    "id": "bb3e3789-d5cb-487a-baa7-ffeef656d9b2",
+    "user_id": "u003",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-13T17:07:49.035810"
+  },
+  {
+    "id": "4b2f4f67-ce63-461f-94c8-4535137f9aa1",
+    "user_id": "u003",
+    "message": "\ud83c\udd98 New CRITICAL donation: apple at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "582efbcb-b0ba-4d13-928b-c81a17f443f2",
+    "timestamp": "2026-04-13T17:07:49.036585"
+  },
+  {
+    "id": "462614af-dab6-41a0-b273-f85db6b91986",
+    "user_id": "u004",
+    "message": "\ud83c\udd98 New CRITICAL donation: apple at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "582efbcb-b0ba-4d13-928b-c81a17f443f2",
+    "timestamp": "2026-04-13T17:07:49.036593"
+  },
+  {
+    "id": "3f804f46-a2a9-45ec-a462-21fb6dd9eb5a",
+    "user_id": "u003",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-13T17:08:19.460369"
+  },
+  {
+    "id": "c8889078-a8bc-4dc2-aee3-130282cd7ec1",
+    "user_id": "u003",
+    "message": "\ud83c\udf3f New SAFE donation: apple at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "665e51ab-dc54-4352-a91f-cb5e2a798c61",
+    "timestamp": "2026-04-13T17:08:19.461158"
+  },
+  {
+    "id": "a9f3eb9f-3921-4c73-a22e-fcf3c02a9de1",
+    "user_id": "u004",
+    "message": "\ud83c\udf3f New SAFE donation: apple at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "665e51ab-dc54-4352-a91f-cb5e2a798c61",
+    "timestamp": "2026-04-13T17:08:19.461173"
+  },
+  {
+    "id": "580b629b-5ecf-4806-8c9d-36ab0ad1c3ef",
+    "user_id": "u002",
+    "message": "\u2705 Hope NGO has accepted your donation 'mixed vegetables' for pickup!",
+    "type": "pickup_accepted",
+    "read": false,
+    "donation_id": "03dbb5a9-bec0-4a0e-9cdf-8f84ba831eac",
+    "timestamp": "2026-04-13T17:09:01.419544"
+  },
+  {
+    "id": "7daa5e7f-d161-4eb7-99ea-49e1f7e0ce07",
+    "user_id": "u001",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-13T18:10:13.723069"
+  },
+  {
+    "id": "3cfa3cd8-63c8-49ab-92d8-c3836ca1b67e",
+    "user_id": "u003",
+    "message": "\u26a0\ufe0f New HIGH donation: rajma chawal at GPS: 28.451035, 77.585842 (accuracy 35m)",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "ade68ed5-2c33-4528-9c78-de50738832f7",
+    "timestamp": "2026-04-13T18:10:13.723500"
+  },
+  {
+    "id": "38060ef3-8bd1-4196-8a68-fd579f7db8d0",
+    "user_id": "u004",
+    "message": "\u26a0\ufe0f New HIGH donation: rajma chawal at GPS: 28.451035, 77.585842 (accuracy 35m)",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "ade68ed5-2c33-4528-9c78-de50738832f7",
+    "timestamp": "2026-04-13T18:10:13.723507"
+  },
+  {
+    "id": "dd33e311-83b4-4140-a1dd-1b1dae3712ec",
+    "user_id": "u003",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-13T19:27:30.815803"
+  },
+  {
+    "id": "b85c459e-8883-4755-8ed2-16bcafe4f087",
+    "user_id": "u003",
+    "message": "\ud83c\udd98 New CRITICAL donation: mixed vegetables at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "4efc1950-f595-4b8a-87b9-a65765c6cf06",
+    "timestamp": "2026-04-13T19:27:30.817594"
+  },
+  {
+    "id": "66b7aba4-cc04-46d0-9fac-d29a92b9d1be",
+    "user_id": "u004",
+    "message": "\ud83c\udd98 New CRITICAL donation: mixed vegetables at greater noida",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "4efc1950-f595-4b8a-87b9-a65765c6cf06",
+    "timestamp": "2026-04-13T19:27:30.817618"
+  },
+  {
+    "id": "55de5241-f765-4a00-9e36-12d5fc7e4e15",
+    "user_id": "u003",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-15T03:47:28.524442"
+  },
+  {
+    "id": "7ffcecb5-dafa-48be-bf93-77e53ebcf659",
+    "user_id": "u003",
+    "message": "\u2705 New LOW donation: Test Rice at GPS: 28.451569, 77.585807",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "5cbfcea5-2bef-4ae6-b9e5-3bf12f546c4f",
+    "timestamp": "2026-04-15T03:47:28.524794"
+  },
+  {
+    "id": "7a5eba5f-e096-4da6-82f2-3a18a8e72513",
+    "user_id": "u004",
+    "message": "\u2705 New LOW donation: Test Rice at GPS: 28.451569, 77.585807",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "5cbfcea5-2bef-4ae6-b9e5-3bf12f546c4f",
+    "timestamp": "2026-04-15T03:47:28.524800"
+  },
+  {
+    "id": "d4835f9f-78db-4ef5-92da-38e674288b37",
+    "user_id": "u003",
+    "message": "\ud83c\udfc6 You earned 100 points! for creating a food donation!",
+    "type": "points",
+    "read": false,
+    "timestamp": "2026-04-15T03:47:28.683882"
+  },
+  {
+    "id": "2eabf294-217d-4026-983e-73e453650bb4",
+    "user_id": "u003",
+    "message": "\ud83c\udf3f New SAFE donation: Test Rice at GPS: 28.451569, 77.585807",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "2464c6fb-5b95-42fb-bb83-821fe586b9a2",
+    "timestamp": "2026-04-15T03:47:28.684235"
+  },
+  {
+    "id": "88c3e4d8-cdec-4037-922b-7f4a1b5a0752",
+    "user_id": "u004",
+    "message": "\ud83c\udf3f New SAFE donation: Test Rice at GPS: 28.451569, 77.585807",
+    "type": "new_donation",
+    "read": false,
+    "donation_id": "2464c6fb-5b95-42fb-bb83-821fe586b9a2",
+    "timestamp": "2026-04-15T03:47:28.684242"
   }
 ]
