@@ -121,10 +121,6 @@ app.config["UPLOAD_FOLDER"] = os.path.join("static", "uploads")
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB
 app.config["ALLOWED_EXTENSIONS"] = {"png", "jpg", "jpeg", "gif", "webp"}
 
-# Ensure directories exist
-os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-os.makedirs("data", exist_ok=True)
-
 # ─────────────────────────────────────────────
 # Data File Paths
 # ─────────────────────────────────────────────
@@ -159,6 +155,9 @@ if os.environ.get("VERCEL") == "1":
     FUTURES_FILE = _runtime_data_file(FUTURES_FILE)
     CARBON_FILE = _runtime_data_file(CARBON_FILE)
     AI_LOGS_FILE = _runtime_data_file(AI_LOGS_FILE)
+else:
+    os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+    os.makedirs("data", exist_ok=True)
 
 # ─────────────────────────────────────────────
 # JSON Database Helpers
