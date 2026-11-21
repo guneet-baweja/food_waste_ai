@@ -52,116 +52,6 @@ body.ch #cr{width:56px;height:56px;border-color:var(--b)}
 
 /* HERO */
 #hero{min-height:100vh;padding:0 6%;padding-top:68px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;position:relative;overflow:hidden}
-.project-intro {
-  position: absolute;
-  top: 108px;
-  right: 6%;
-  z-index: 8;
-  width: min(470px, 38vw);
-  padding: 1.15rem;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.1);
-  background: rgba(3,9,12,.72);
-  backdrop-filter: blur(22px);
-  box-shadow: 0 24px 80px rgba(0,0,0,.45), 0 0 48px rgba(0,255,136,.08);
-  opacity: 0;
-  transform: translateY(18px) rotateX(12deg);
-  transform-origin: 50% 0;
-  pointer-events: none;
-}
-.project-intro.show {
-  animation: projectIntroIn .9s cubic-bezier(.16,1,.3,1) forwards;
-}
-.project-intro.hide {
-  animation: projectIntroOut .75s ease forwards;
-}
-@keyframes projectIntroIn{to{opacity:1;transform:translateY(0) rotateX(0)}}
-@keyframes projectIntroOut{to{opacity:0;transform:translateY(-16px) rotateX(-10deg);filter:blur(8px)}}
-.pi-logo-wrap {
-  background: rgba(255,255,255,.96);
-  border-radius: 8px;
-  padding: .45rem .55rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 12px 30px rgba(0,0,0,.22);
-}
-.pi-logo {
-  display: block;
-  width: 100%;
-  max-height: 106px;
-  height: auto;
-  object-fit: contain;
-}
-.pi-kicker {
-  font-family: var(--fm);
-  font-size: .66rem;
-  letter-spacing: .14em;
-  color: var(--g);
-  text-transform: uppercase;
-  margin-bottom: .45rem;
-}
-.pi-title {
-  font-family: var(--fd);
-  font-size: 2rem;
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -.03em;
-  color: #fff;
-}
-.pi-title span {
-  background: linear-gradient(135deg,var(--g),var(--b));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.pi-university {
-  margin-top: .55rem;
-  color: rgba(240,244,255,.72);
-  font-size: .9rem;
-  font-weight: 700;
-}
-.pi-students {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: .65rem;
-  margin-top: .95rem;
-}
-.pi-student {
-  padding: .75rem;
-  border-radius: 8px;
-  border: 1px solid rgba(0,255,136,.14);
-  background: rgba(0,255,136,.055);
-}
-.pi-student strong {
-  display: block;
-  color: #fff;
-  font-size: .88rem;
-  margin-bottom: .18rem;
-}
-.pi-student span {
-  color: var(--g);
-  font-family: var(--fm);
-  font-size: .72rem;
-}
-.pi-timer {
-  position: relative;
-  height: 3px;
-  margin-top: .95rem;
-  border-radius: 999px;
-  background: rgba(255,255,255,.08);
-  overflow: hidden;
-}
-.pi-timer::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  background: linear-gradient(90deg,var(--g),var(--b));
-  transform-origin: left;
-}
-.project-intro.show .pi-timer::before {
-  animation: piTimer 12s linear forwards;
-}
-@keyframes piTimer{to{transform:scaleX(0)}}
 .hew{display:inline-flex;align-items:center;gap:.6rem;padding:.3rem 1rem;border-radius:999px;background:rgba(0,255,136,.07);border:1px solid rgba(0,255,136,.2);font-size:.7rem;font-weight:700;color:var(--g);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2rem;opacity:0;transform:translateY(16px);transition:all .8s ease}
 .hew.in{opacity:1;transform:translateY(0)}
 .hew-dot{width:6px;height:6px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:blink 2s ease-in-out infinite}
@@ -475,16 +365,12 @@ footer{padding:3rem 6%;border-top:1px solid rgba(255,255,255,.05);display:flex;j
   .model-grid{grid-template-columns:1fr}
   .real-impact-grid{grid-template-columns:repeat(2,1fr)}
   .section-title{font-size:3.2rem}
-  .project-intro{width:min(420px,42vw);right:4%;top:92px}
-  .pi-title{font-size:1.65rem}
-  .pi-students{grid-template-columns:1fr}
 }
 @media(max-width:680px){
   .section-title{font-size:2.35rem}
   .mc-stat{grid-template-columns:1fr;gap:.2rem}
   .real-impact-grid{grid-template-columns:1fr}
   .pl-line{font-size:.72rem}
-  .project-intro{display:none}
 }
 </style>
 </head>
@@ -525,25 +411,6 @@ footer{padding:3rem 6%;border-top:1px solid rgba(255,255,255,.05);display:flex;j
 
 <!-- HERO -->
 <section id="hero">
-  <aside class="project-intro" id="projectIntro" aria-label="Project details">
-    <div class="pi-logo-wrap">
-      <img class="pi-logo" src="/static/images/bennett-university-logo.svg" alt="Bennett University" />
-    </div>
-    <div class="pi-kicker">Project Title</div>
-    <div class="pi-title">ReWaste <span>connect</span></div>
-    <div class="pi-university">Bennett University</div>
-    <div class="pi-students">
-      <div class="pi-student">
-        <strong>Guneet</strong>
-        <span>s24cseu1649</span>
-      </div>
-      <div class="pi-student">
-        <strong>Umang malhotra</strong>
-        <span>s24cseu1645</span>
-      </div>
-    </div>
-    <div class="pi-timer"></div>
-  </aside>
   <div class="hew" id="hew"><div class="hew-dot"></div>India's AI-Powered Food Rescue Network</div>
   <h1 class="ht" id="ht"></h1>
   <p class="hs">Computer vision models classify food freshness and intelligently route surplus food to NGOs, poultry farms, or biogas plants based on real-time conditions.</p>
@@ -909,23 +776,11 @@ function heroIn(){
   })
   ht.innerHTML=html
   setTimeout(()=>hew.classList.add('in'),2000)
-  showProjectIntro()
   setTimeout(()=>{
     document.querySelectorAll('#hero .hsn[data-cnt]').forEach(el=>{
       animCount(el,+el.dataset.cnt)
     })
   },3900)
-}
-
-function showProjectIntro(){
-  const intro=document.getElementById('projectIntro')
-  if(!intro)return
-  intro.classList.remove('hide')
-  intro.classList.add('show')
-  setTimeout(()=>{
-    intro.classList.remove('show')
-    intro.classList.add('hide')
-  },12000)
 }
 
 /* ══════════════════════════════════════
